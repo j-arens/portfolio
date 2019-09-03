@@ -5,7 +5,7 @@ const readFileAsync = promisify(fs.readFile);
 
 async function getContents(filepath) {
   try {
-    const contents = await readFileAsync(filepath);
+    const contents = await readFileAsync(filepath, 'utf8');
     return contents;
   } catch (err) {
     console.error(err);
@@ -13,12 +13,6 @@ async function getContents(filepath) {
   }
 }
 
-// function requireFresh(mod) {
-//   delete require.cache[require.resolve(mod)];
-//   return require(mod);
-// }
-
 module.exports = {
   getContents,
-  // requireFresh,
 };

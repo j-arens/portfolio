@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-// const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = ({ mode, src }) => {
@@ -32,18 +32,15 @@ module.exports = ({ mode, src }) => {
     new CleanWebpackPlugin(),
   ];
 
-  // if (process.env.DEV_SERVER === 'true') {
-  //   plugins.push(
-  //     new BrowserSyncPlugin({
-  //       host: 'localhost',
-  //       port: '5432',
-  //       server: {
-  //         baseDir: path.resolve(__dirname, '../dist'),
-  //       },
-  //     }),
-  //   );
-  // }
-  
-  // return plugins;
+  if (process.env.DEV_SERVER === 'true') {
+    plugins.push(
+      new BrowserSyncPlugin({
+        host: 'localhost',
+        port: '9501',
+        proxy: 'http://localhost:9500',
+      }),
+    );
+  }
+
   return { plugins };
 };

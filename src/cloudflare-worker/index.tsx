@@ -30,16 +30,17 @@ function getDocument(): string {
  */
 function renderApp(document: string): string {
   const rendered = render(<App />);
+  console.log('DOC', document);
   return document.replace(APP_TAG, rendered);
 }
 
 /**
  * 
  */
-function respond(req: Request): Response {
+function createResponse(req: Request): Response {
   console.log('REQ: ', req);
   const doc = getDocument();
-  const body = renderApp(doc)
+  const body = renderApp(doc);
   return new Response(body);
 }
 
@@ -57,11 +58,11 @@ function errorResponse(): Response {
  * 
  */
 self.addEventListener('fetch', (event: Event) => {
-  const { request } = event as FetchEvent;
+  const { request, respondWith } = event as FetchEvent;
   try {
-    return respond(request);
+    respondWith(createResponse(request));
   } catch (err) {
     // logging?
-    return errorResponse();
+    return respondWith(errorResponse());
   }
 });
