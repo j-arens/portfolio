@@ -22,13 +22,13 @@ export function getLocalComponent(name: string) {
 /**
  * 
  */
-export function buildModuleUrl(name: string): string {
-  const { APP: { manifest, gcs: { base } } } = self as any;
-  const filename = manifest[`${name.toLowerCase()}.js`];
-  // assets are local during dev
-  if (process.env.NODE_ENV !== 'production') {
-    return `/${filename}`;
-  }
-  // assets are stored on GCS in prod
-  return `${base}/${filename}`;
-}
+// export function buildModuleUrl(name: string): string {
+//   const { APP: { manifest, gcs: { base } } } = self as any;
+//   const filename = manifest[`${name.toLowerCase()}.js`];
+//   // assets are local during dev
+//   if (process.env.NODE_ENV !== 'production') {
+//     return `/${filename}`;
+//   }
+//   // assets are stored on GCS in prod
+//   return `${base}/${filename}`;
+// }

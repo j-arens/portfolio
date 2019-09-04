@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { Suspense, lazy } from 'preact/compat';
-import { isServerSide, getLocalComponent, buildModuleUrl } from '~app/moduleResolution';
+import { isServerSide, getLocalComponent } from '~app/moduleResolution';
 
 type RouterProps = {
   path: string,
@@ -12,14 +12,25 @@ type OwnProps = {
 
 type Props = RouterProps & OwnProps;
 
+const importTemplate = (name: string) => {
+  switch (name) {
+    case 'About':
+      return import('../../templates/About');
+    case 'Contact':
+      return import('../../templates/Contact');
+    default: {
+      return Promise.resolve({ default: () => <div /> });
+    }
+  }
+}
+
 const TemplateResolver = ({ template }: Props) => {
   if (isServerSide()) {
     return h(getLocalComponent(template), {});
   }
-  const url = buildModuleUrl(template);
   return (
     <Suspense fallback={<div>lol suspense fallback</div>}>
-      {h(lazy(() => import(/* webpackIgnore: true */`${url}`)), {})}
+      {h(lazy(() => importTemplate(template)), {})}
     </Suspense>
   );
 };

@@ -6,6 +6,7 @@ const app = express();
 
 app.get('*', (req, res, next) => {
   if (req.url.endsWith('.js')) {
+    console.log('ASSET REQ: ', req.url);
     return next();
   }
   runWorker(req.url)
