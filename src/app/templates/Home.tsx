@@ -1,8 +1,12 @@
 import { h } from 'preact';
+import { Link } from 'preact-router';
 
 const Home = () => {
   return (
-    <div>lol home</div>
+    <div>
+      <Link href="/about">About</Link>
+      <Link href="/contact">Contact</Link>
+    </div>
   );
 };
 

@@ -1,27 +1,23 @@
 import { h } from 'preact';
 import Router from 'preact-router';
-import AsyncRoute from 'preact-async-route';
 import Home from '~app/templates/Home';
-import { moduleResolver } from '~app/utils';
+import TemplateResolver from '../TemplateResolver';
 
-const App = () => {
+type Props = {
+  url?: string,
+}
+
+const App = ({ url = undefined }: Props) => {
   return (
-    <Router>
+    <Router url={url}>
       <Home path="/" />
-      <AsyncRoute
+      <TemplateResolver
         path="/about"
-        getComponent={moduleResolver('About')}
-        // loading={}
+        template="About"
       />
-      <AsyncRoute
+      <TemplateResolver
         path="/contact"
-        getComponent={moduleResolver('Contact')}
-        // loading={}
-      />
-      <AsyncRoute
-        path="/work/:slug"
-        getComponent={moduleResolver('Article')}
-        // loading={}
+        template="Contact"
       />
     </Router>
   );

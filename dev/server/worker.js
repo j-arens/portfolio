@@ -34,6 +34,9 @@ async function prepareDocument() {
     <script type="text/javascript">
       window.APP = {
         manifest: ${manifest},
+        gcs: {
+          base: '',
+        },
       };
     </script>
   `;
@@ -53,16 +56,16 @@ async function prepareScript() {
  * Extremely barebones mock of a cloudflare worker environment
  */
 function createContext() {
-  return {
+  const ctx = {
     __setResponse(res) {
       response = res;
     },
     __emitter: new EventEmitter(),
     get self() {
-      return this;
+      return ctx;
     },
     addEventListener(event, callback) {
-      this.__emitter.on(event, callback);
+      ctx.__emitter.on(event, callback);
     },
     Request,
     Response,
@@ -72,6 +75,7 @@ function createContext() {
       },
     }
   };
+  return ctx;
 }
 
 function createDispatcher(url) {

@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "preact": "^10.0.0-rc.1",
-    "preact-async-route": "^2.2.1",
-    "preact-router": "^2.6.1"
+    "preact-render-to-string": "^5.0.6",
+    "preact-router": "^3.0.1"
   },
   "devDependencies": {
     "@cloudflare/wrangler": "^1.2.0",
@@ -31,7 +31,6 @@
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.8.0",
     "node-fetch": "^2.6.0",
-    "preact-render-to-string": "^4.1.0",
     "prettier": "^1.18.2",
     "script-ext-html-webpack-plugin": "^2.1.4",
     "tailwindcss": "^1.1.2",
