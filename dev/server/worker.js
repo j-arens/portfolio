@@ -12,6 +12,7 @@ const SCRIPT_PATH = path.join(DIST, 'cloudflare-worker.bundle.js');
 
 const DOCUMENT_TAG = '<!-- % DOCUMENT % -->';
 const GLOBALS_TAG = '<!-- % GLOBALS % -->';
+const MANIFEST_TAG = '"<!-- % MANIFEST % -->"';
 
 let response = null;
 
@@ -28,16 +29,13 @@ function replaceTag(tag, replace, subj) {
  * @return {Promise<string>}
  */
 async function prepareDocument() {
-  const manifest = await getContents(MANIFEST_PATH);
   const document = await getContents(DOCUMENT_PATH);
   const globals = `
     <script type="text/javascript">
-      window.APP = {
-        manifest: ${manifest},
-        gcs: {
-          base: '',
-        },
-      };
+      if (!('APP' in self)) {
+        self.APP = {};
+      }
+      self.APP.gcs = { base: '' };
     </script>
   `;
   return replaceTag(GLOBALS_TAG, globals, document);
@@ -47,9 +45,11 @@ async function prepareDocument() {
  * @return {Promise<string>}
  */
 async function prepareScript() {
+  const manifest = await getContents(MANIFEST_PATH);
   const document = await prepareDocument();
   const script = await getContents(SCRIPT_PATH);
-  return replaceTag(DOCUMENT_TAG, document, script);
+  const withDoc = replaceTag(DOCUMENT_TAG, document, script);
+  return replaceTag(MANIFEST_TAG, manifest, withDoc);;
 }
 
 /**

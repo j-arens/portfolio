@@ -5,10 +5,11 @@ import About from '~app/templates/About';
 import Contact from '~app/templates/Contact';
 import Article from '~app/templates/Article';
 
-import { FetchEvent } from './type';
+import { FetchEvent, Manifest } from './type';
 
 // @ts-ignore
 self.APP = {
+  isSSR: true,
   components: {
     About,
     Contact,
@@ -17,6 +18,7 @@ self.APP = {
 };
 
 const APP_TAG = '<!-- % APP % -->';
+const SPLIT_CHUNK_TAG = '<!-- % SPLITCHUNKS % -->'
 
 /**
  * 
@@ -25,12 +27,28 @@ function getDocument(): string {
   return `<!-- % DOCUMENT % -->`;
 }
 
+function getManifest(): Manifest {
+  // @ts-ignore
+  return "<!-- % MANIFEST % -->";
+}
+
+function injectSplitChunks(document: string, url: string): string {
+  const manifest = getManifest();
+  const chunkKey = `${url.replace('/', '')}.js`;
+  if (chunkKey in manifest) {
+    const script = `<script type="text/javascript" src="${manifest[chunkKey]}" defer></script>`;
+    return document.replace(SPLIT_CHUNK_TAG, script);
+  }
+  return document;
+}
+
 /**
  * 
  */
 function renderApp(document: string, url: string): string {
   const rendered = render(<App url={url} />);
-  return document.replace(APP_TAG, rendered);
+  const appDoc = document.replace(APP_TAG, rendered);
+  return injectSplitChunks(appDoc, url);
 }
 
 /**

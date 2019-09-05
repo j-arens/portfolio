@@ -17,14 +17,9 @@ module.exports = ({ mode, src }) => {
     }),
     new ManifestPlugin(),
     new HtmlWebpackPlugin({
+      inject: 'head',
       template: path.join(src, 'index.ejs'),
-      excludeChunks: [
-        'about',
-        'contact',
-        'article',
-        // 'service-worker',
-        'cloudflare-worker',
-      ],
+      excludeChunks: ['cloudflare-worker'],
     }),
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'defer',

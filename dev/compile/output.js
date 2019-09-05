@@ -9,5 +9,6 @@ module.exports = ({ root }) => ({
       }
       return '[name].[hash].js';
     },
+    chunkFilename: '[name].[hash].js',
   },
 });
