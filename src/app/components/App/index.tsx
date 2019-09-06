@@ -1,25 +1,31 @@
 import { h } from 'preact';
 import Router from 'preact-router';
-import Home from '~app/templates/Home';
+import Header from '../Header';
 import TemplateResolver from '../TemplateResolver';
+import '~global-styles/style.pcss';
 
 type Props = {
   url?: string,
 }
 
 const App = ({ url = undefined }: Props) => {
+  const routesToTemplates = {
+    '/': 'Home',
+    '/about': 'About',
+    '/contact': 'Contact',
+  };
   return (
-    <Router url={url}>
-      <Home path="/" />
-      <TemplateResolver
-        path="/about"
-        template="About"
-      />
-      <TemplateResolver
-        path="/contact"
-        template="Contact"
-      />
-    </Router>
+    <div id="app">
+      <Header />
+      <Router url={url}>
+        {Object.entries(routesToTemplates).map(([route, template]) => (
+          <TemplateResolver
+            path={route}
+            template={template}
+          />
+        ))}
+      </Router>
+    </div>
   );
 };
 

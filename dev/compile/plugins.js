@@ -13,7 +13,7 @@ module.exports = ({ mode, src }) => {
       NODE_ENV: mode
     }),
     new MiniCssExtractPlugin({
-      filename: 'style/[name].[hash].css' 
+      filename: '[name].[hash].css' 
     }),
     new ManifestPlugin(),
     new HtmlWebpackPlugin({
