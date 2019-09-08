@@ -11,11 +11,12 @@ type MatchProps = {
 
 const SiteNav = () => {
   const links = {
+    '/': 'Blog',
     '/about': 'About',
     '/contact': 'Contact',
   };
   return (
-    <Match path="/">
+    <Match>
       {({ path }: MatchProps) => (
         <nav>
           {Object.entries(links).map(([link, name]) => (

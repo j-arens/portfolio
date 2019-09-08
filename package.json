@@ -6,9 +6,10 @@
   "author": "Josh Arens",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --config ./dev/compile/webpack.config.js",
+    "build": "webpack --config ./dev/webpack/webpack.config.js",
     "build:dev": "NODE_ENV=development yarn build",
     "build:watch": "yarn build:dev --w",
+    "md:parse": "cargo run",
     "start": "DEV_SERVER=true yarn build:watch"
   },
   "dependencies": {
@@ -38,7 +39,6 @@
     "tailwindcss": "^1.1.2",
     "ts-loader": "^6.0.4",
     "typescript": "^3.6.2",
-    "typings-for-css-modules-loader": "^1.7.0",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7",
     "webpack-manifest-plugin": "^2.0.4"
