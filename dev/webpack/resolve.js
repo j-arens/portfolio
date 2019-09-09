@@ -1,5 +1,7 @@
 const path = require('path');
-const { compilerOptions: { paths } } = require('../../tsconfig.json');
+const {
+  compilerOptions: { paths },
+} = require('../../tsconfig.json');
 
 module.exports = ({ root }) => ({
   resolve: {

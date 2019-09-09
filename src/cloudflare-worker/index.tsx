@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { render } from 'preact-render-to-string';
-import App from  '~app/components/App';
-import Home from '~app/templates/Home';
+import App from '~app/components/App';
+import Blog from '~app/templates/Blog';
 import About from '~app/templates/About';
 import Contact from '~app/templates/Contact';
 import Article from '~app/templates/Article';
@@ -11,7 +11,7 @@ import { FetchEvent } from './type';
 // @ts-ignore
 self.APP = {
   components: {
-    Home,
+    Blog,
     About,
     Contact,
     Article,
@@ -22,14 +22,14 @@ const APP_TAG = '<!-- % APP % -->';
 const GLOBALS_TAG = '<!-- % GLOBALS % -->';
 
 /**
- * 
+ *
  */
 function getDocument(): string {
   return `<!-- % DOCUMENT % -->`;
 }
 
 /**
- * 
+ *
  */
 function renderApp(document: string, url: string): string {
   const rendered = render(<App url={url} />);
@@ -51,7 +51,7 @@ function injectGlobals(document: string): string {
 }
 
 /**
- * 
+ *
  */
 function createResponse(url: string): Response {
   const doc = getDocument();
@@ -62,7 +62,7 @@ function createResponse(url: string): Response {
 }
 
 /**
- * 
+ *
  */
 function errorResponse(): Response {
   return new Response('', {
@@ -72,7 +72,7 @@ function errorResponse(): Response {
 }
 
 /**
- * 
+ *
  */
 self.addEventListener('fetch', (event: Event) => {
   const { request, respondWith } = event as FetchEvent;

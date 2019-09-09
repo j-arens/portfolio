@@ -8,4 +8,3 @@ module.exports = ({ mode }) => {
     devtool: 'inline-cheap-module-source-map',
   };
 };
-

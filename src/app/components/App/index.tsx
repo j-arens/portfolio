@@ -5,12 +5,12 @@ import TemplateResolver from '../TemplateResolver';
 import '~global-styles/style.pcss';
 
 type Props = {
-  url?: string,
-}
+  url?: string;
+};
 
-const App = ({ url = undefined }: Props) => {
+const App = ({ url }: Props): h.JSX.Element => {
   const routesToTemplates = {
-    '/': 'Home',
+    '/': 'Blog',
     '/about': 'About',
     '/contact': 'Contact',
   };
@@ -19,10 +19,7 @@ const App = ({ url = undefined }: Props) => {
       <Header />
       <Router url={url}>
         {Object.entries(routesToTemplates).map(([route, template]) => (
-          <TemplateResolver
-            path={route}
-            template={template}
-          />
+          <TemplateResolver key={route} path={route} template={template} />
         ))}
       </Router>
     </div>

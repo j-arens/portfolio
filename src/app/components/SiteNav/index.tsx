@@ -4,12 +4,12 @@ import Match from 'preact-router/match';
 const s = require('./style.pcss');
 
 type MatchProps = {
-  url: string,
-  path: string,
-  matches: boolean,
-}
+  url: string;
+  path: string;
+  matches: boolean;
+};
 
-const SiteNav = () => {
+const SiteNav = (): h.JSX.Element => {
   const links = {
     '/': 'Blog',
     '/about': 'About',
@@ -17,7 +17,7 @@ const SiteNav = () => {
   };
   return (
     <Match>
-      {({ path }: MatchProps) => (
+      {({ path }: MatchProps): h.JSX.Element => (
         <nav>
           {Object.entries(links).map(([link, name]) => (
             <Link

@@ -16,10 +16,7 @@ module.exports = () => ({
     {
       loader: 'postcss-loader',
       options: {
-        plugins: () => [
-          require('tailwindcss'),
-          require('autoprefixer'),
-        ],
+        plugins: () => [require('tailwindcss'), require('autoprefixer')],
       },
     },
   ],

@@ -14,9 +14,9 @@ const DOCUMENT_TAG = '<!-- % DOCUMENT % -->';
 let response = undefined;
 
 /**
- * @param {string} tag 
- * @param {string} replace 
- * @param {string} subj 
+ * @param {string} tag
+ * @param {string} replace
+ * @param {string} subj
  */
 function replaceTag(tag, replace, subj) {
   return subj.replace(tag, replace);
@@ -53,14 +53,14 @@ function createContext() {
       log(...data) {
         console.log(...data);
       },
-    }
+    },
   };
   return ctx;
 }
 
 /**
- * 
- * @param {string} url 
+ *
+ * @param {string} url
  * @return {string}
  */
 function createDispatcher(url) {
@@ -75,15 +75,15 @@ function createDispatcher(url) {
 }
 
 /**
- * 
+ *
  * @param {string} url
- * @return {Promise<string>} 
+ * @return {Promise<string>}
  */
 async function runWorker(url) {
   const script = await prepareScript();
-  let context = createContext();
+  const context = createContext();
   const dispatch = createDispatcher(url);
-  let instance = new Script(script + dispatch);
+  const instance = new Script(script + dispatch);
   instance.runInNewContext(context);
   const body = await response.text();
   return body;

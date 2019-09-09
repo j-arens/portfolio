@@ -3,13 +3,11 @@ import { Link } from 'preact-router';
 import SiteNav from '../SiteNav';
 const s = require('./style.pcss');
 
-const Header = () => {
+const Header = (): h.JSX.Element => {
   return (
     <header class={s.Header}>
       <h1 class={s.HeaderTitle}>
-        <Link href="/">
-          Josh Arens
-        </Link>
+        <Link href="/">Josh Arens</Link>
       </h1>
       <SiteNav />
     </header>

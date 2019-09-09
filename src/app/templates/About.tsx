@@ -1,6 +1,6 @@
 import { h } from 'preact';
 
-const About = () => {
+const About = (): h.JSX.Element => {
   return <div>lol about</div>;
 };
 

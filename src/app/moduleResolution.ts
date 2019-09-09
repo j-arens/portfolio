@@ -1,26 +1,26 @@
 /**
- * 
+ *
  */
-export function isServerSide(): boolean {
-  try {
-    // running on an express server during dev
-    return global.process.title === 'node';
-  } catch (_) {
-    // running in a cloudflare worker in prod
-    return !('Window' in self);
-  }
-}
+// export function isServerSide(): boolean {
+//   try {
+//     // running on an express server during dev
+//     return global.process.title === 'node';
+//   } catch (_) {
+//     // running in a cloudflare worker in prod
+//     return !('Window' in self);
+//   }
+// }
 
 /**
- * 
+ *
  */
-export function getLocalComponent(name: string) {
-  const { APP: { components } } = self as any;
-  return components[name];
-}
+// export function getLocalComponent(name: string) {
+//   const { APP: { components } } = self as any;
+//   return components[name];
+// }
 
 /**
- * 
+ *
  */
 // export function buildModuleUrl(name: string): string {
 //   const { APP: { manifest, gcs: { base } } } = self as any;

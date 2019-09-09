@@ -2,30 +2,38 @@ import { h } from 'preact';
 import { Suspense, lazy } from 'preact/compat';
 
 type RouterProps = {
-  path: string,
-}
+  path: string;
+};
 
 type OwnProps = {
-  template: string,
-}
+  template: string;
+};
 
 type Props = RouterProps & OwnProps;
 
-const importTemplate = (name: string) => {
+const importTemplate = (
+  name: string,
+): Promise<{ default: () => h.JSX.Element }> => {
   switch (name) {
-    case 'Home':
-      return import(/* webpackChunkName: "home", webpackPrefetch: true */'../../templates/Home');
+    case 'Blog':
+      return import(
+        /* webpackChunkName: "blog", webpackPrefetch: true */ '../../templates/Blog'
+      );
     case 'About':
-      return import(/* webpackChunkName: "about", webpackPrefetch: true */'../../templates/About');
+      return import(
+        /* webpackChunkName: "about", webpackPrefetch: true */ '../../templates/About'
+      );
     case 'Contact':
-      return import(/* webpackChunkName: "contact", webpackPrefetch: true */'../../templates/Contact');
+      return import(
+        /* webpackChunkName: "contact", webpackPrefetch: true */ '../../templates/Contact'
+      );
     default: {
-      return Promise.resolve({ default: () => <div /> });
+      return Promise.resolve({ default: () => <div /> }); // eslint-disable-line react/display-name
     }
   }
-}
+};
 
-const TemplateResolver = ({ template }: Props) => {
+const TemplateResolver = ({ template }: Props): h.JSX.Element => {
   // @ts-ignore
   if (template in self.APP.components) {
     // @ts-ignore
