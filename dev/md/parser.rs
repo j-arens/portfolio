@@ -1,17 +1,12 @@
 use pulldown_cmark::{html, Options, Parser};
 use regex::Regex;
 use serde::{Deserialize, Serialize};
+use slug::slugify;
 
 use std::fs;
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::{Path, PathBuf};
-
-// fn x () -> std::io::Result<()> {
-//   for entry in fs::read_dir("./src/posts")? {
-
-//   }
-// }
 
 fn get_file_paths(dir: &Path) -> Vec<PathBuf> {
   let paths = fs::read_dir(dir)
@@ -45,19 +40,19 @@ impl FrontmatterParser {
   }
 
   pub fn parse(&self, markdown: &str) -> (Frontmatter, String) {
-    let fm_json = self.find_frontmatter(&markdown);
-    let stripped_md = self.strip_frontmatter(&markdown);
+    let fm_json = self.find_frontmatter(markdown);
+    let stripped_md = self.strip_frontmatter(markdown);
     let fm = self.json_to_frontmatter(&fm_json);
     return (fm, stripped_md);
   }
 
   fn find_frontmatter(&self, markdown: &str) -> String {
-    let matched = self.pattern.find(&markdown).unwrap();
-    return matched.as_str().to_owned();
+    let captures = self.pattern.captures(markdown).unwrap();
+    return captures.get(1).unwrap().as_str().to_owned();
   }
 
   fn strip_frontmatter(&self, markdown: &str) -> String {
-    return self.pattern.replace(&markdown, "").to_string();
+    return self.pattern.replace(markdown, "").to_string();
   }
 
   fn json_to_frontmatter(&self, fm_json: &str) -> Frontmatter {
@@ -66,31 +61,49 @@ impl FrontmatterParser {
   }
 }
 
-// #[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize)]
 struct Post {
   title: String,
+  slug: String,
   date: String,
   excerpt: String,
   html: String,
+}
+
+impl Post {
+  pub fn new(fm: &Frontmatter, html: String) -> Self {
+    Post {
+      title: fm.title.to_owned(),
+      slug: slugify(fm.title.to_owned()),
+      date: fm.date.to_owned(),
+      excerpt: fm.excerpt.to_owned(),
+      html,
+    }
+  }
 }
 
 fn main() {
   let fm_parser = FrontmatterParser::new();
   let files = get_file_paths(Path::new("./src/posts"));
 
-  files.iter().map(|file| {
-    let contents = get_file_contents(file);
-    let (fm, markdown) = fm_parser.parse(&contents);
-    let md_parser = Parser::new(&markdown);
-    let mut html = String::new();
-    html::push_html(&mut html, md_parser);
-    Post {
-      title: fm.title,
-      date: fm.date,
-      excerpt: fm.excerpt,
-      html,
-    }
-  });
+  let posts = files
+    .iter()
+    .map(|file| {
+      let contents = get_file_contents(file);
+      let (fm, markdown) = fm_parser.parse(&contents);
+      let md_parser = Parser::new(&markdown);
+      let mut html = String::new();
+      html::push_html(&mut html, md_parser);
+      return Post::new(&fm, html);
+    })
+    .collect::<Vec<Post>>();
+
+  for post in posts.iter() {
+    let json = serde_json::to_string(&post).unwrap();
+    let path = format!("./dist/{}.json", post.slug);
+    let mut file = File::create(Path::new(&path)).unwrap();
+    file.write_all(json.as_bytes()).unwrap();
+  }
 }
 
 // fn main() -> std::io::Result<()> {
