@@ -1,6 +1,7 @@
-use pulldown_cmark::{html, Options, Parser};
+use pulldown_cmark::{html, Parser};
 use regex::Regex;
 use serde::{Deserialize, Serialize};
+use serde_json::{json, Map};
 use slug::slugify;
 
 use std::fs;
@@ -98,6 +99,24 @@ fn main() {
     })
     .collect::<Vec<Post>>();
 
+  // create recent posts json
+  let mut recent_posts = Map::new();
+  for post in posts.iter() {
+    let key = &post.slug;
+    let value = json!({
+      "title": post.title,
+      "excerpt": post.excerpt,
+    });
+    recent_posts.insert(key.to_string(), value);
+  }
+
+  let recent_posts_json = serde_json::to_string(&recent_posts).unwrap();
+  let mut recent_posts_file = File::create(Path::new("./dist/recent_posts.json")).unwrap();
+  recent_posts_file
+    .write_all(recent_posts_json.as_bytes())
+    .unwrap();
+
+  // create post json
   for post in posts.iter() {
     let json = serde_json::to_string(&post).unwrap();
     let path = format!("./dist/{}.json", post.slug);
@@ -105,29 +124,3 @@ fn main() {
     file.write_all(json.as_bytes()).unwrap();
   }
 }
-
-// fn main() -> std::io::Result<()> {
-//   let file = Path::new("./src/posts/post-1.md");
-//   let mut contents = fs::read_to_string(file).unwrap();
-
-//   let mut options = Options::empty();
-//   options.insert(Options::ENABLE_STRIKETHROUGH);
-
-//   let parser = Parser::new_ext(&mut contents, options);
-
-//   let mut html = String::new();
-//   html::push_html(&mut html, parser);
-
-//   let post = Post {
-//     title: String::from("lol post"),
-//     excerpt: String::new(),
-//     content: html,
-//   };
-
-//   let json = serde_json::to_string(&post)?;
-
-//   let post_path = Path::new("./dist/post-1.json");
-//   let mut post_file = File::create(post_path).unwrap();
-//   post_file.write_all(json.as_bytes())?;
-//   Ok(())
-// }

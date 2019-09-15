@@ -8,8 +8,10 @@ const ROOT = path.resolve(__dirname, '../../');
 const DIST = path.join(ROOT, 'dist');
 const DOCUMENT_PATH = path.join(DIST, 'index.html');
 const SCRIPT_PATH = path.join(DIST, 'cloudflare-worker.bundle.js');
+const RECENT_POSTS_PATH = path.join(DIST, 'recent_posts.json');
 
 const DOCUMENT_TAG = '<!-- % DOCUMENT % -->';
+const RECENT_POSTS_TAG = '<!-- % RECENT_POSTS % -->';
 
 let response = undefined;
 
@@ -27,7 +29,9 @@ function replaceTag(tag, replace, subj) {
  */
 async function prepareScript() {
   const document = await getContents(DOCUMENT_PATH);
-  const script = await getContents(SCRIPT_PATH);
+  const recentPosts = await getContents(RECENT_POSTS_PATH);
+  let script = await getContents(SCRIPT_PATH);
+  script = replaceTag(RECENT_POSTS_TAG, recentPosts, script);
   return replaceTag(DOCUMENT_TAG, document, script);
 }
 

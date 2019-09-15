@@ -6,17 +6,8 @@ import About from '~app/templates/About';
 import Contact from '~app/templates/Contact';
 import Article from '~app/templates/Article';
 
+// import { FetchEvent, RecentPosts } from './type';
 import { FetchEvent } from './type';
-
-// @ts-ignore
-self.APP = {
-  components: {
-    Blog,
-    About,
-    Contact,
-    Article,
-  },
-};
 
 const APP_TAG = '<!-- % APP % -->';
 const GLOBALS_TAG = '<!-- % GLOBALS % -->';
@@ -27,6 +18,21 @@ const GLOBALS_TAG = '<!-- % GLOBALS % -->';
 function getDocument(): string {
   return `<!-- % DOCUMENT % -->`;
 }
+
+function getRecentPosts(): string {
+  return `<!-- % RECENT_POSTS % -->`;
+}
+
+// @ts-ignore
+self.APP = {
+  recentPosts: JSON.parse(getRecentPosts()),
+  components: {
+    Blog,
+    About,
+    Contact,
+    Article,
+  },
+};
 
 /**
  *
@@ -40,6 +46,7 @@ function injectGlobals(document: string): string {
   const globals = `
     <script type="text/javascript">
       self.APP = {
+        recentPosts: ${getRecentPosts()},
         gcs: {
           base: '',
         },
@@ -57,7 +64,6 @@ function createResponse(url: string): Response {
   const doc = getDocument();
   const body = renderApp(doc, url);
   const withGlobals = injectGlobals(body);
-  // return new Response(body);
   return new Response(withGlobals);
 }
 

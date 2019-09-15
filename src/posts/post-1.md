@@ -2,7 +2,7 @@
 {
   "title": "lol title",
   "excerpt": "lol this is the excerpt",
-  "date": "iso-date-here"
+  "date": "2019-09-14T23:11:01.218Z"
 }
 +++
 
