@@ -11,11 +11,20 @@ type Props = {
 const PostCard = ({ slug, title, excerpt }: Props): h.JSX.Element => {
   return (
     // @ts-ignore - cite attribute
-    <blockquote key={slug} className={s.PostCard} cite={`/${slug}`}>
-      <Link className={s['PostCard__link']} href={`/${slug}`}>
-        <h2>{title}</h2>
-        <p>{excerpt}</p>
-        <p>Read More &#10097;</p>
+    <blockquote key={slug} class={s.PostCard} cite={`/${slug}`}>
+      <Link class={s.link} href={`/blog/${slug}`}>
+        <h2 class={s.title}>{title}</h2>
+        <p class={s.excerpt}>{excerpt}</p>
+        <p class={s.readMore}>
+          Read More
+          <svg
+            class={s.chevron}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+          </svg>
+        </p>
       </Link>
     </blockquote>
   );

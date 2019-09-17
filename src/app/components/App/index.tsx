@@ -11,6 +11,7 @@ type Props = {
 const App = ({ url }: Props): h.JSX.Element => {
   const routesToTemplates = {
     '/': 'Blog',
+    '/blog/:slug': 'Blog',
     '/about': 'About',
     '/contact': 'Contact',
   };

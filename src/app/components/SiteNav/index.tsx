@@ -3,11 +3,7 @@ import { Link } from 'preact-router';
 import Match from 'preact-router/match';
 const s = require('./style.pcss');
 
-type MatchProps = {
-  url: string;
-  path: string;
-  matches: boolean;
-};
+import { MatchProps } from '~app/type';
 
 const SiteNav = (): h.JSX.Element => {
   const links = {
