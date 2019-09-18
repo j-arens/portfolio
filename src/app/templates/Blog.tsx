@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import Match from 'preact-router/match';
 import PostCard from '../components/PostCard';
-import Article from '../components/Article';
+import Post from '../components/Post';
 
 import { MatchProps } from '~app/type';
 
@@ -30,7 +30,7 @@ const Blog = (): h.JSX.Element => {
             );
           }
           const slug = path.replace('/blog/', '');
-          return <Article id={slug} />;
+          return <Post id={slug} />;
         }}
       </Match>
     </main>

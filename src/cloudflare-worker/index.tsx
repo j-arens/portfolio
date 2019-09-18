@@ -26,6 +26,10 @@ function getRecentPosts(): string {
 // @ts-ignore
 self.APP = {
   recentPosts: JSON.parse(getRecentPosts()),
+  posts: {},
+  storage: {
+    url: 'http://localhost:9500',
+  },
   components: {
     Blog,
     About,
@@ -43,12 +47,14 @@ function renderApp(document: string, url: string): string {
 }
 
 function injectGlobals(document: string): string {
+  // just take a copy of self.APP?
   const globals = `
     <script type="text/javascript">
       self.APP = {
         recentPosts: ${getRecentPosts()},
-        gcs: {
-          base: '',
+        posts: {},
+        storage: {
+          url: 'http://localhost:9500',
         },
         components: {},
       };

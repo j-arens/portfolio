@@ -1,7 +1,7 @@
 const path = require('path');
 const EventEmitter = require('events');
 const { Script } = require('vm');
-const { Request, Response } = require('node-fetch');
+const { Request, Response, fetch } = require('node-fetch');
 const { getContents } = require('./utils');
 
 const ROOT = path.resolve(__dirname, '../../');
@@ -53,6 +53,7 @@ function createContext() {
     },
     Request,
     Response,
+    fetch,
     console: {
       log(...data) {
         console.log(...data);

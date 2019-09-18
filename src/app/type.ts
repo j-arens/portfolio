@@ -3,3 +3,11 @@ export type MatchProps = {
   path: string;
   matches: boolean;
 };
+
+export type Post = {
+  title: string;
+  slug: string;
+  date: string;
+  excerpt: string;
+  html: string;
+};
