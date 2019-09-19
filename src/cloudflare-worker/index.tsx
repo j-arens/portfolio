@@ -1,10 +1,10 @@
 import { h } from 'preact';
 import { render } from 'preact-render-to-string';
 import App from '~app/components/App';
-import Blog from '~app/templates/Blog';
-import About from '~app/templates/About';
-import Contact from '~app/templates/Contact';
-import Article from '~app/templates/Article';
+import Blog from '~app/pages/Blog';
+import About from '~app/pages/About';
+import Contact from '~app/pages/Contact';
+import Article from '~app/pages/Article';
 
 // import { FetchEvent, RecentPosts } from './type';
 import { FetchEvent } from './type';

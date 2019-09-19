@@ -1,0 +1,36 @@
+.form {
+  @apply max-w-3xl m-auto;
+}
+
+.title {
+  @apply text-xl tracking-wide font-bold mb-8;
+}
+
+.group + .group {
+  margin-top: 2rem;
+}
+
+.label {
+  @apply mb-2 text-lg tracking-wide;
+}
+
+.label,
+.input {
+  display: block;
+}
+
+.input,
+.submit {
+  @apply border border-gray-900 leading-loose px-2 tracking-wide;
+  border-width: 0.25rem;
+}
+
+.input {
+  width: 100%;
+  background: none;
+}
+
+.submit:hover {
+  @apply bg-gray-900;
+  color: #f8f8f2; /* foreground from dracula */
+}
