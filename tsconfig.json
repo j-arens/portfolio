@@ -26,7 +26,8 @@
       "~cloudflare-worker/*": ["src/cloudflare-worker/*"],
       "~service-worker/*": ["src/service-worker/*"],
       "~global-styles/*": ["src/global-styles/*"],
-      "~posts/*": ["src/posts/*"]
+      "~posts/*": ["src/posts/*"],
+      "~common/*": ["src/common/*"]
     }
   },
   "include": [
