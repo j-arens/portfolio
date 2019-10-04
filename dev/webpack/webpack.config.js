@@ -13,12 +13,24 @@ const mode = process.env.NODE_ENV || 'production';
 
 const config = {
   mode,
-  ...entries({ src }),
-  ...devTool({ mode }),
-  ...resolve({ root }),
-  ...output({ root }),
+  ...entries({
+    src,
+  }),
+  ...devTool({
+    mode,
+  }),
+  ...resolve({
+    root,
+  }),
+  ...output({
+    root,
+  }),
   ...modules(),
-  ...plugins({ mode, src }),
+  ...plugins({
+    mode,
+    src,
+    root,
+  }),
   ...optimization(),
 };
 

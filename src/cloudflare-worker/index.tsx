@@ -5,12 +5,17 @@ import Blog from '~app/pages/Blog';
 import About from '~app/pages/About';
 import Contact from '~app/pages/Contact';
 import Article from '~app/pages/Article';
+import Router from './Router';
 
 // import { FetchEvent, RecentPosts } from './type';
-import { FetchEvent } from './type';
+import { FetchEvent, MutableResponse } from './type';
 
 const APP_TAG = '<!-- % APP % -->';
 const GLOBALS_TAG = '<!-- % GLOBALS % -->';
+
+const router = new Router();
+
+router.all('*', (req: Request, res: MutableResponse): MutableResponse => {});
 
 /**
  *
@@ -76,23 +81,40 @@ function createResponse(url: string): Response {
 /**
  *
  */
-function errorResponse(): Response {
-  return new Response('', {
-    status: 500,
-    statusText: 'internal script error',
-  });
-}
+// function errorResponse(): Response {
+//   return new Response('', {
+//     status: 500,
+//     statusText: 'internal script error',
+//   });
+// }
 
 /**
  *
  */
+// self.addEventListener('fetch', (event: Event) => {
+//   const { request, respondWith } = event as FetchEvent;
+//   console.log(request.url);
+//   try {
+//     respondWith(createResponse(request.url));
+//   } catch (err) {
+//     // logging?
+//     console.log(err);
+//     return respondWith(errorResponse());
+//   }
+// });
+
 self.addEventListener('fetch', (event: Event) => {
   const { request, respondWith } = event as FetchEvent;
   try {
-    respondWith(createResponse(request.url));
+    respondWith(router.dispatch(request));
   } catch (err) {
     // logging?
     console.log(err);
-    return respondWith(errorResponse());
+    respondWith(
+      new Response('internal server error', {
+        status: 500,
+        statusText: 'internal server error',
+      }),
+    );
   }
 });

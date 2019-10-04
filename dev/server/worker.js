@@ -65,29 +65,40 @@ function createContext() {
 
 /**
  *
- * @param {string} url
+ * @param {Express.Request} req
  * @return {string}
  */
-function createDispatcher(url) {
+function createDispatcher(req) {
+  const url = `http://localhost${req.originalUrl}`;
   return `
-    __emitter.emit('fetch', {
-      request: new Request('${url}'),
-      respondWith(response) {
-        __setResponse(response);
-      },
-    });
+    (() => {
+      const url = '${url}';
+      const method = '${req.method}';
+      const body = '${req.body}';
+      const init = { method };
+      if (!['GET', 'HEAD'].includes(method)) {
+        init.body = body;
+      }
+      const request = new Request(url, init);
+      __emitter.emit('fetch', {
+        request,
+        respondWith(response) {
+          __setResponse(response);
+        },
+      });
+    })();
   `;
 }
 
 /**
  *
- * @param {string} url
+ * @param {Express.Request} req
  * @return {Promise<string>}
  */
-async function runWorker(url) {
+async function runWorker(req) {
   const script = await prepareScript();
   const context = createContext();
-  const dispatch = createDispatcher(url);
+  const dispatch = createDispatcher(req);
   const instance = new Script(script + dispatch);
   instance.runInNewContext(context);
   const body = await response.text();

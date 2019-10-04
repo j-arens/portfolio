@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const { EnvironmentPlugin } = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -6,10 +7,25 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-module.exports = ({ mode, src }) => {
+function parseDotEnv(envfile) {
+  if (!fs.existsSync(envfile)) {
+    throw new Error(`could not find .env file at ${envfile}`);
+  }
+  const contents = fs.readFileSync(envfile, 'utf8');
+  return contents.split('\n').reduce((acc, pair) => {
+    const [key, value] = pair.split('=');
+    acc[key] = value;
+    return acc;
+  }, {});
+}
+
+module.exports = ({ mode, src, root }) => {
   const plugins = [
     new EnvironmentPlugin({
       NODE_ENV: mode,
+      ...parseDotEnv(
+        path.join(root, mode === 'production' ? '.env' : '.env.local'),
+      ),
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[hash].css',
@@ -35,5 +51,7 @@ module.exports = ({ mode, src }) => {
     );
   }
 
-  return { plugins };
+  return {
+    plugins,
+  };
 };

@@ -10,8 +10,8 @@ app.use(
   }),
 );
 
-app.get('*', async (req, res) => {
-  const body = await runWorker(req.url);
+app.all('*', async (req, res) => {
+  const body = await runWorker(req);
   res.send(body);
 });
 

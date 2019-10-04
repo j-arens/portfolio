@@ -1,6 +1,7 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import { Result, ok, err, match } from '~common/result';
+import Spinner from '../Spinner';
 const s = require('./style.pcss');
 
 type Values = {
@@ -32,6 +33,7 @@ const submitForm = async (values: Values): Promise<Result<null, string>> => {
 };
 
 const ContactForm = (): h.JSX.Element => {
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const [edited, setEdited] = useState<Set<string>>(new Set());
   const [values, setValues] = useState<Values>({
     name: '',
@@ -71,8 +73,10 @@ const ContactForm = (): h.JSX.Element => {
   };
 
   const handleSubmit = (e: Event): void => {
+    setSubmitting(true);
     e.preventDefault();
     submitForm(values).then((result: Result<null, string>) => {
+      setSubmitting(false);
       match<null, string>({
         result,
         ok: () => {},
@@ -146,7 +150,7 @@ const ContactForm = (): h.JSX.Element => {
           // is not fired on forms that have invalid fields
           onClick={(): void => setEdited(new Set(Object.keys(values)))}
         >
-          Submit
+          {submitting ? <Spinner /> : 'submit'}
         </button>
       </div>
     </form>

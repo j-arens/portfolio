@@ -23,21 +23,23 @@ export function err<E>(err: E): Result<never, E> {
   };
 }
 
-type MatchParams<T, E> = {
+type MatchParams<T, E, R = void> = {
   result: Result<T, E>;
-  ok: (ok: T) => void;
-  err: (err: E) => void;
+  ok: (ok: T) => R;
+  err: (err: E) => R;
 };
 
-export function match<T, E>({ result, ok, err }: MatchParams<T, E>): void {
+export function match<T, E, R = void>({
+  result,
+  ok,
+  err,
+}: MatchParams<T, E, R>): R {
   switch (result.isOk() ? 0 : 1) {
     case 0:
-      ok(result.ok);
-      break;
+      return ok(result.ok);
     case 1:
-      err(result.err);
-      break;
+      return err(result.err);
     default:
-      err(result.err);
+      return err(result.err);
   }
 }
