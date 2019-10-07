@@ -1,3 +1,5 @@
+import MutableResponse from './http/MutableResponse';
+
 export interface FetchEvent extends Event {
   request: Request;
   respondWith(response: Promise<Response> | Response): any;
@@ -11,19 +13,12 @@ export type RecentPosts = {
 };
 
 export enum HTTPMethod {
-  'get',
-  'post',
-  'put',
-  'patch',
-  'delete',
+  'GET' = 'GET',
+  'POST' = 'POST',
+  'PUT' = 'PUT',
+  'PATCH' = 'PATCH',
+  'DELETE' = 'DELETE',
 }
-
-export type MutableResponse = {
-  body: '';
-  status: 200;
-  statusText: '';
-  headers: Headers;
-};
 
 export type RouteCallback = (
   req: Request,
