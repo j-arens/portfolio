@@ -1,6 +1,7 @@
 const path = require('path');
 const EventEmitter = require('events');
 const { Script } = require('vm');
+const nodeurl = require('url');
 const { Request, Response, Headers, fetch } = require('node-fetch');
 const { getContents } = require('./utils');
 
@@ -55,6 +56,13 @@ function createContext() {
     Response,
     Headers,
     fetch,
+    URL: class {
+      constructor(url) {
+        Object.entries(nodeurl.parse(url)).forEach(
+          ([key, value]) => (this[key] = value),
+        );
+      }
+    },
     console: {
       log(...data) {
         console.log(...data);
@@ -94,7 +102,7 @@ function createDispatcher(req) {
 /**
  *
  * @param {Express.Request} req
- * @return {Promise<string>}
+ * @return {Response}
  */
 async function runWorker(req) {
   const script = await prepareScript();
@@ -103,8 +111,7 @@ async function runWorker(req) {
   const instance = new Script(script + dispatch);
   instance.runInNewContext(context);
   const res = await response;
-  const body = await res.text();
-  return body;
+  return res;
 }
 
 module.exports = runWorker;

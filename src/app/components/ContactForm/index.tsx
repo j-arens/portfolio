@@ -16,7 +16,11 @@ const submitForm = async (values: Values): Promise<Result<null, string>> => {
     const res = await fetch(`${process.env.CONTACT_SUBMISSION_URL}`, {
       method: 'POST',
       body: JSON.stringify(values),
+      headers: new Headers({
+        'Content-type': 'application/json',
+      }),
     });
+    console.log(res);
     if (!res.ok) {
       // if validation error do something
       // else

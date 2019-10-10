@@ -61,14 +61,15 @@ class Router {
     method: HTTPMethod,
     url: string,
   ): Result<RouteCallback, null> {
-    if (url in this._routes[method]) {
-      return ok(this._routes[method][url]);
+    const { pathname } = new URL(url);
+    if (pathname in this._routes[method]) {
+      return ok(this._routes[method][pathname]);
     }
     if ('*' in this._routes[method]) {
       return ok(this._routes[method]['*']);
     }
-    if (url in this._routes.all) {
-      return ok(this._routes.all[url]);
+    if (pathname in this._routes.all) {
+      return ok(this._routes.all[pathname]);
     }
     if ('*' in this._routes.all) {
       return ok(this._routes.all['*']);
@@ -85,8 +86,8 @@ class Router {
       const { body, ...init } = result.properties();
       return new Response(body, init);
     }
-    await result;
-    const { body, ...init } = result.properties();
+    const awaited = await result;
+    const { body, ...init } = awaited.properties();
     return new Response(body, init);
   }
 }

@@ -23,4 +23,4 @@ export enum HTTPMethod {
 export type RouteCallback = (
   req: Request,
   res: MutableResponse,
-) => MutableResponse;
+) => MutableResponse | Promise<MutableResponse>;

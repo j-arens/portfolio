@@ -1,12 +1,11 @@
 import Router from './Router';
 import MutableResponse from './MutableResponse';
 import * as app from '../app';
+import * as api from '../api';
 
 const router = new Router();
 
-// router.post('/contact', (req: Request, res: MutableResponse): MutableResponse => {
-//   return api.contact();
-// });
+router.post('/contact', api.contact);
 
 router.all(
   '*',
