@@ -1,39 +1,15 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
-import { Result, ok, err, match } from '~common/result';
+import { Result, match } from '~common/result';
 import Spinner from '../Spinner';
+import submit from './submission';
 const s = require('./style.pcss');
 
-type Values = {
+export type Values = {
   name: string;
   email: string;
   subject: string;
   message: string;
-};
-
-const submitForm = async (values: Values): Promise<Result<null, string>> => {
-  try {
-    const res = await fetch(`${process.env.CONTACT_SUBMISSION_URL}`, {
-      method: 'POST',
-      body: JSON.stringify(values),
-      headers: new Headers({
-        'Content-type': 'application/json',
-      }),
-    });
-    console.log(res);
-    if (!res.ok) {
-      // if validation error do something
-      // else
-      return err(
-        `An unexpected error occured. Try sending me an email at ${process.env.CONTACT_EMAIL}`,
-      );
-    }
-    return ok(null);
-  } catch (e) {
-    return err(
-      `Unable to connect to server. Try sending me an email at ${process.env.CONTACT_EMAIL}`,
-    );
-  }
 };
 
 const ContactForm = (): h.JSX.Element => {
@@ -79,7 +55,7 @@ const ContactForm = (): h.JSX.Element => {
   const handleSubmit = (e: Event): void => {
     setSubmitting(true);
     e.preventDefault();
-    submitForm(values).then((result: Result<null, string>) => {
+    submit(values).then((result: Result<null, string>) => {
       setSubmitting(false);
       match<null, string>({
         result,

@@ -1,3 +1,4 @@
+// very minimal variant of the result enum in rust
 export interface Result<T, E> {
   isOk: () => boolean;
   isErr: () => boolean;

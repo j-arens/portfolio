@@ -9,11 +9,12 @@
     "build": "webpack --config ./dev/webpack/webpack.config.js",
     "build:dev": "NODE_ENV=development yarn build",
     "build:watch": "yarn build:dev --w",
+    "devserver": "node dev/server/index.js",
     "md:parse": "cargo run",
-    "start": "DEV_SERVER=true yarn build:watch"
+    "start": "BROWSER_SYNC=true yarn build:watch"
   },
   "dependencies": {
-    "preact": "^10.0.0-rc.1",
+    "preact": "^10.0",
     "preact-render-to-string": "^5.0.6",
     "preact-router": "^3.0.1"
   },

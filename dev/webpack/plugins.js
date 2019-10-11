@@ -9,7 +9,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 function parseDotEnv(envfile) {
   if (!fs.existsSync(envfile)) {
-    throw new Error(`could not find .env file at ${envfile}`);
+    throw new Error(`could not find env file at ${envfile}`);
   }
   const contents = fs.readFileSync(envfile, 'utf8');
   return contents.split('\n').reduce((acc, pair) => {
@@ -27,21 +27,17 @@ module.exports = ({ mode, src, root }) => {
         path.join(root, mode === 'production' ? '.env' : '.env.local'),
       ),
     }),
-    new MiniCssExtractPlugin({
-      filename: '[name].[hash].css',
-    }),
+    new MiniCssExtractPlugin({ filename: '[name].[hash].css' }),
     new HtmlWebpackPlugin({
       inject: 'head',
       template: path.join(src, 'index.ejs'),
       excludeChunks: ['cloudflare-worker'],
     }),
-    new ScriptExtHtmlWebpackPlugin({
-      defaultAttribute: 'defer',
-    }),
+    new ScriptExtHtmlWebpackPlugin({ defaultAttribute: 'defer' }),
     new CleanWebpackPlugin(),
   ];
 
-  if (process.env.DEV_SERVER === 'true') {
+  if (process.env.BROWSER_SYNC === 'true') {
     plugins.push(
       new BrowserSyncPlugin({
         host: 'localhost',
@@ -51,7 +47,5 @@ module.exports = ({ mode, src, root }) => {
     );
   }
 
-  return {
-    plugins,
-  };
+  return { plugins };
 };

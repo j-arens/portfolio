@@ -10,12 +10,11 @@ use std::io::prelude::*;
 use std::path::{Path, PathBuf};
 
 fn get_file_paths(dir: &Path) -> Vec<PathBuf> {
-  let paths = fs::read_dir(dir)
+  fs::read_dir(dir)
     .unwrap()
     .filter_map(|entry| entry.ok())
     .map(|entry| entry.path())
-    .collect::<Vec<PathBuf>>();
-  return paths;
+    .collect::<Vec<PathBuf>>()
 }
 
 fn get_file_contents(path: &PathBuf) -> String {
@@ -44,21 +43,20 @@ impl FrontmatterParser {
     let fm_json = self.find_frontmatter(markdown);
     let stripped_md = self.strip_frontmatter(markdown);
     let fm = self.json_to_frontmatter(&fm_json);
-    return (fm, stripped_md);
+    (fm, stripped_md)
   }
 
   fn find_frontmatter(&self, markdown: &str) -> String {
     let captures = self.pattern.captures(markdown).unwrap();
-    return captures.get(1).unwrap().as_str().to_owned();
+    captures.get(1).unwrap().as_str().to_owned()
   }
 
   fn strip_frontmatter(&self, markdown: &str) -> String {
-    return self.pattern.replace(markdown, "").to_string();
+    self.pattern.replace(markdown, "").to_string()
   }
 
   fn json_to_frontmatter(&self, fm_json: &str) -> Frontmatter {
-    let fm: Frontmatter = serde_json::from_str(&fm_json).unwrap();
-    return fm;
+    serde_json::from_str(&fm_json).unwrap()
   }
 }
 
@@ -95,7 +93,7 @@ fn main() {
       let md_parser = Parser::new(&markdown);
       let mut html = String::new();
       html::push_html(&mut html, md_parser);
-      return Post::new(&fm, html);
+      Post::new(&fm, html)
     })
     .collect::<Vec<Post>>();
 
