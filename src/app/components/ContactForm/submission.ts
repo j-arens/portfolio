@@ -14,7 +14,7 @@ const errCodeToMsg = {
   [ContactSubmissionErrors.INVALID_MESSAGE]: 'message is invalid',
   [ContactSubmissionErrors.INVALID_INPUT_FORMAT]:
     'submitted data was not in the expected format',
-  [ContactSubmissionErrors.SENDGRID_REQ_FAILED]: 'failed to send mail',
+  [ContactSubmissionErrors.SENDGRID_REQ_FAILED]: `failed to send mail, try emailing me directly at ${process.env.CONTACT_EMAIL}`,
 };
 
 export default async function(values: Values): Promise<Result<null, string>> {
@@ -33,7 +33,7 @@ export default async function(values: Values): Promise<Result<null, string>> {
     return ok(null);
   } catch (e) {
     return err(
-      `An unexpected error occured. Try sending me an email at ${process.env.CONTACT_EMAIL}`,
+      `an unexpected error occured, try sending me an email at ${process.env.CONTACT_EMAIL}`,
     );
   }
 }

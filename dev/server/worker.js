@@ -2,7 +2,8 @@ const path = require('path');
 const EventEmitter = require('events');
 const { Script } = require('vm');
 const nodeurl = require('url');
-const { Request, Response, Headers, fetch } = require('node-fetch');
+const { Request, Response, Headers } = require('node-fetch');
+const fetch = require('node-fetch').default;
 const { getContents } = require('./utils');
 
 const ROOT = path.resolve(__dirname, '../../');

@@ -65,11 +65,13 @@ async function sendReq(
   try {
     const res = await fetch(req);
     if (!res.ok) {
-      // log
+      // @TODO: log
+      console.log(res.status, res.statusText);
       return err(ContactSubmissionErrors.SENDGRID_REQ_FAILED);
     }
-  } catch (err) {
-    // log
+  } catch (e) {
+    // @TODO: log
+    console.log(e);
     return err(ContactSubmissionErrors.SENDGRID_REQ_FAILED);
   }
   return ok(null);

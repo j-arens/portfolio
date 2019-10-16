@@ -5,12 +5,13 @@ export interface FetchEvent extends Event {
   respondWith(response: Promise<Response> | Response): any;
 }
 
-export type RecentPosts = {
-  [k: string]: {
+export type RecentPosts = Record<
+  string,
+  {
     title: string;
     excerpt: string;
-  };
-};
+  }
+>;
 
 export enum HTTPMethod {
   'GET' = 'GET',

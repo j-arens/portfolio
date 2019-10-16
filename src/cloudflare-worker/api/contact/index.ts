@@ -26,5 +26,5 @@ export default async function(
     res.status(500).json({ code: sent.err });
   }
 
-  return res;
+  return res.status(200);
 }

@@ -1,7 +1,9 @@
-import { h } from 'preact';
+import { h, Fragment } from 'preact';
 import { useState } from 'preact/hooks';
 import { Result, match } from '~common/result';
 import Spinner from '../Spinner';
+import { useNotifications } from '../Notify/hooks';
+import Notify from '../Notify';
 import submit from './submission';
 const s = require('./style.pcss');
 
@@ -13,6 +15,11 @@ export type Values = {
 };
 
 const ContactForm = (): h.JSX.Element => {
+  const [
+    notifications,
+    addNotification,
+    deleteNotification,
+  ] = useNotifications();
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [edited, setEdited] = useState<Set<string>>(new Set());
   const [values, setValues] = useState<Values>({
@@ -38,7 +45,7 @@ const ContactForm = (): h.JSX.Element => {
   const handleChange = <K extends keyof Values>(
     key: K,
   ): ((e: Event) => void) => (e): void => {
-    if (e && e.currentTarget instanceof HTMLInputElement) {
+    if (!submitting && e && e.currentTarget instanceof HTMLInputElement) {
       setValues({
         ...values,
         [key]: e.currentTarget.value,
@@ -47,93 +54,118 @@ const ContactForm = (): h.JSX.Element => {
   };
 
   const handleBlur = <K extends keyof Values>(key: K) => (): void => {
-    if (!edited.has(key)) {
+    if (!submitting && !edited.has(key)) {
       setEdited(new Set([...edited, key]));
     }
   };
 
   const handleSubmit = (e: Event): void => {
-    setSubmitting(true);
     e.preventDefault();
+    if (submitting) {
+      return;
+    }
+    setSubmitting(true);
     submit(values).then((result: Result<null, string>) => {
       setSubmitting(false);
       match<null, string>({
         result,
-        ok: () => {},
-        err: (err: string) => {},
+        ok: () => {
+          addNotification({
+            message: 'GREAT JOB!',
+            dismissable: true,
+          });
+          setValues({
+            name: '',
+            email: '',
+            subject: '',
+            message: '',
+          });
+        },
+        err: (err: string) => {
+          addNotification({
+            message: 'LOL ERROR',
+          });
+        },
       });
     });
   };
 
   return (
-    <form class={s.form} action="#" method="post" onSubmit={handleSubmit}>
-      <h2 class={s.title}>Get in touch</h2>
-      <div class={s.group}>
-        <label class={s.label} htmlFor="name">
-          Name
-        </label>
-        <input
-          class={getInputClasses('name')}
-          name="name"
-          type="text"
-          onChange={handleChange('name')}
-          onBlur={handleBlur('name')}
-          required
-        />
-      </div>
-      <div class={s.group}>
-        <label class={s.label} htmlFor="email">
-          Email
-        </label>
-        <input
-          class={getInputClasses('email')}
-          name="email"
-          type="email"
-          onChange={handleChange('email')}
-          onBlur={handleBlur('email')}
-          required
-        />
-      </div>
-      <div class={s.group}>
-        <label class={s.label} htmlFor="subject">
-          Subject
-        </label>
-        <input
-          class={getInputClasses('subject')}
-          name="subject"
-          type="text"
-          onChange={handleChange('subject')}
-          onBlur={handleBlur('subject')}
-          required
-        />
-      </div>
-      <div class={s.group}>
-        <label class={s.label} htmlFor="message">
-          Message
-        </label>
-        <textarea
-          class={getInputClasses('message')}
-          name="message"
-          cols={30}
-          rows={10}
-          onChange={handleChange('message')}
-          onBlur={handleBlur('message')}
-          required
-        />
-      </div>
-      <div class={s.group}>
-        <button
-          class={s.submit}
-          type="submit"
-          // removes overriding css that hides :invalid before user edits an input,
-          // doing this here instead of in the submit handler because the submit event
-          // is not fired on forms that have invalid fields
-          onClick={(): void => setEdited(new Set(Object.keys(values)))}
-        >
-          {submitting ? <Spinner /> : 'submit'}
-        </button>
-      </div>
-    </form>
+    <Fragment>
+      <Notify
+        notifications={Array.from(notifications.values())}
+        onDismiss={deleteNotification}
+      />
+      <form class={s.form} action="#" method="post" onSubmit={handleSubmit}>
+        <h2 class={s.title}>Get in touch</h2>
+        <div class={s.group}>
+          <label class={s.label} htmlFor="name">
+            Name
+          </label>
+          <input
+            class={getInputClasses('name')}
+            name="name"
+            type="text"
+            onChange={handleChange('name')}
+            onBlur={handleBlur('name')}
+            required
+          />
+        </div>
+        <div class={s.group}>
+          <label class={s.label} htmlFor="email">
+            Email
+          </label>
+          <input
+            class={getInputClasses('email')}
+            name="email"
+            type="email"
+            onChange={handleChange('email')}
+            onBlur={handleBlur('email')}
+            required
+          />
+        </div>
+        <div class={s.group}>
+          <label class={s.label} htmlFor="subject">
+            Subject
+          </label>
+          <input
+            class={getInputClasses('subject')}
+            name="subject"
+            type="text"
+            onChange={handleChange('subject')}
+            onBlur={handleBlur('subject')}
+            required
+          />
+        </div>
+        <div class={s.group}>
+          <label class={s.label} htmlFor="message">
+            Message
+          </label>
+          <textarea
+            class={getInputClasses('message')}
+            name="message"
+            cols={30}
+            rows={10}
+            onChange={handleChange('message')}
+            onBlur={handleBlur('message')}
+            required
+          />
+        </div>
+        <div class={s.group}>
+          <button
+            class={s.submit}
+            type="submit"
+            disabled={submitting}
+            // removes overriding css that hides :invalid before user edits an input,
+            // doing this here instead of in the submit handler because the submit event
+            // is not fired on forms that have invalid fields
+            onClick={(): void => setEdited(new Set(Object.keys(values)))}
+          >
+            {submitting ? <Spinner /> : 'submit'}
+          </button>
+        </div>
+      </form>
+    </Fragment>
   );
 };
 
