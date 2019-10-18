@@ -1,3 +1,17 @@
+.spinner {
+  width: 100%;
+  height: 100%;
+}
+
+.spinner circle {
+  stroke: currentColor;
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 64;
+  transform-origin: center center;
+  animation: swing 1s linear infinite alternate, rotate 2s linear infinite;
+}
+
 @keyframes rotate {
   from {
     transform: rotate(0);
@@ -13,15 +27,5 @@
   }
   to {
     stroke-dashoffset: 64;
-  }
-}
-
-.spinner {
-  & circle {
-    fill: none;
-    stroke-linecap: round;
-    stroke-dasharray: 64;
-    transform-origin: center center;
-    animation: swing 1s linear infinite alternate, rotate 2s linear infinite;
   }
 }

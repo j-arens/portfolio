@@ -1,18 +1,36 @@
 import { h } from 'preact';
-import { Notification } from './type';
 const s = require('./style.pcss');
+
+export enum NotificationType {
+  'DEFAULT' = 'default',
+  'WARNING' = 'warning',
+  'DANGER' = 'danger',
+  'SUCCESS' = 'success',
+}
+
+export type Notification = {
+  id: symbol;
+  message: string;
+  dismissable?: boolean;
+  type?: NotificationType;
+};
 
 type Props = {
   notifications: Notification[];
   onDismiss: (id: symbol) => void;
+  className?: string;
 };
 
-const Notify = ({ notifications, onDismiss }: Props): h.JSX.Element | null => {
+const Notify = ({
+  notifications,
+  onDismiss,
+  className = '',
+}: Props): h.JSX.Element | null => {
   if (!notifications.length) {
     return null;
   }
   return (
-    <ul class={s.notify}>
+    <ul class={[s.notify, className].join(' ')}>
       {notifications.map(({ id, message, type, dismissable }) => (
         <li
           key={id}

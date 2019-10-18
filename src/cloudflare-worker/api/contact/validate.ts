@@ -14,7 +14,7 @@ const isString = isType('string');
 const hasLength = (subject: unknown): boolean => {
   try {
     // @ts-ignore subject is unknown
-    return subject.length > 1;
+    return subject.length > 0;
   } catch (_) {
     return false;
   }

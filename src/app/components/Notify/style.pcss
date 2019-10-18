@@ -1,0 +1,52 @@
+.notification--default {
+  background-color: #1a202c;
+}
+
+.notification--warning {
+  /* background-color: #ffa500; */
+  @apply bg-orange-500;
+}
+
+.notification--danger {
+  @apply bg-red-500;
+}
+
+.notification--success {
+  @apply bg-green-500;
+}
+
+.notification {
+  @apply flex p-2 justify-between;
+  color: #f8f8f2;
+  animation: scale-in 0.1s ease;
+}
+
+.notification + .notification {
+  @apply mt-4;
+}
+
+.message {
+  @apply text-xl;
+}
+
+.btnIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: currentColor;
+  transition: opacity 0.1s ease;
+}
+
+.btn:hover .btnIcon {
+  opacity: 0.8;
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

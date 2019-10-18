@@ -1,8 +1,8 @@
 export enum NotificationType {
   'DEFAULT' = 'default',
-  'PRIMARY' = 'primary',
   'WARNING' = 'warning',
   'DANGER' = 'danger',
+  'SUCCESS' = 'success',
 }
 
 export type Notification = {

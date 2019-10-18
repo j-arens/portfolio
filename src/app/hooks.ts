@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'preact/hooks';
-
 import { Post } from './type';
 
 const { fetch } = self;

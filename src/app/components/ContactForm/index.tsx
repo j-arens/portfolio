@@ -1,9 +1,9 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import { Result, match } from '~common/result';
 import Spinner from '../Spinner';
 import { useNotifications } from '../Notify/hooks';
-import Notify from '../Notify';
+import Notify, { NotificationType } from '../Notify';
 import submit from './submission';
 const s = require('./style.pcss');
 
@@ -45,10 +45,10 @@ const ContactForm = (): h.JSX.Element => {
   const handleChange = <K extends keyof Values>(
     key: K,
   ): ((e: Event) => void) => (e): void => {
-    if (!submitting && e && e.currentTarget instanceof HTMLInputElement) {
+    if (!submitting && e.currentTarget) {
       setValues({
         ...values,
-        [key]: e.currentTarget.value,
+        [key]: (e.currentTarget as HTMLInputElement).value,
       });
     }
   };
@@ -71,8 +71,9 @@ const ContactForm = (): h.JSX.Element => {
         result,
         ok: () => {
           addNotification({
-            message: 'GREAT JOB!',
+            message: "thanks, I'll be in contact shortly!",
             dismissable: true,
+            type: NotificationType.SUCCESS,
           });
           setValues({
             name: '',
@@ -83,7 +84,9 @@ const ContactForm = (): h.JSX.Element => {
         },
         err: (err: string) => {
           addNotification({
-            message: 'LOL ERROR',
+            message: err,
+            dismissable: true,
+            type: NotificationType.DANGER,
           });
         },
       });
@@ -91,12 +94,18 @@ const ContactForm = (): h.JSX.Element => {
   };
 
   return (
-    <Fragment>
+    <div class={[s.container, submitting ? s.submitting : ''].join(' ')}>
       <Notify
+        className={s.notifications}
         notifications={Array.from(notifications.values())}
         onDismiss={deleteNotification}
       />
-      <form class={s.form} action="#" method="post" onSubmit={handleSubmit}>
+      <form
+        class={s.form}
+        action="/contact"
+        method="post"
+        onSubmit={handleSubmit}
+      >
         <h2 class={s.title}>Get in touch</h2>
         <div class={s.group}>
           <label class={s.label} htmlFor="name">
@@ -161,11 +170,11 @@ const ContactForm = (): h.JSX.Element => {
             // is not fired on forms that have invalid fields
             onClick={(): void => setEdited(new Set(Object.keys(values)))}
           >
-            {submitting ? <Spinner /> : 'submit'}
+            {submitting ? <Spinner className={s.submitSpinner} /> : 'submit'}
           </button>
         </div>
       </form>
-    </Fragment>
+    </div>
   );
 };
 

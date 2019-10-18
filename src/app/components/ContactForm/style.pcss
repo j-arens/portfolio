@@ -1,5 +1,11 @@
-.form {
+.container {
   @apply max-w-3xl m-auto;
+}
+
+.notifications {
+  @apply mb-8;
+  position: sticky;
+  top: 2rem;
 }
 
 .title {
@@ -38,7 +44,18 @@
   @apply border-gray-900;
 }
 
+.submit:disabled {
+  cursor: not-allowed;
+}
+
+.submitting .submit,
 .submit:hover {
   @apply bg-gray-900;
   color: #f8f8f2; /* foreground from dracula */
+}
+
+.submitSpinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0.25rem 0.9rem;
 }

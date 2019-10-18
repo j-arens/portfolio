@@ -11,19 +11,19 @@ export default async function(
   try {
     json = await req.json();
   } catch (_) {
-    res
+    return res
       .status(400)
       .json({ code: ContactSubmissionErrors.INVALID_INPUT_FORMAT });
   }
 
   const valid = validate(json);
   if (valid.isErr()) {
-    res.status(400).json({ code: valid.err });
+    return res.status(400).json({ code: valid.err });
   }
 
   const sent = await send(json);
   if (sent.isErr()) {
-    res.status(500).json({ code: sent.err });
+    return res.status(500).json({ code: sent.err });
   }
 
   return res.status(200);
