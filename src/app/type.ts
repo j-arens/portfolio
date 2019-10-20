@@ -11,8 +11,3 @@ export type Post = {
   excerpt: string;
   html: string;
 };
-
-export type Action<T, P> = {
-  type: T;
-  payload: P;
-};

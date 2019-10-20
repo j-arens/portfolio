@@ -1,11 +1,10 @@
-import { h } from 'preact';
+import { h, FunctionComponent } from 'preact';
 import { Link } from 'preact-router';
 import Match from 'preact-router/match';
+import { MatchProps } from '~app/type';
 const s = require('./style.pcss');
 
-import { MatchProps } from '~app/type';
-
-const SiteNav = (): h.JSX.Element => {
+const SiteNav: FunctionComponent<{}> = () => {
   const links = {
     '/': 'Blog',
     '/about': 'About',

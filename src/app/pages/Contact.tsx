@@ -1,7 +1,7 @@
-import { h } from 'preact';
+import { h, FunctionComponent } from 'preact';
 import ContactForm from '../components/ContactForm';
 
-const Contact = (): h.JSX.Element => {
+const Contact: FunctionComponent<{}> = () => {
   return (
     <main role="main">
       <ContactForm />

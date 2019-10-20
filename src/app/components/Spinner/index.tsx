@@ -1,11 +1,11 @@
-import { h } from 'preact';
+import { h, FunctionComponent } from 'preact';
 const s = require('./style.pcss');
 
 type Props = {
   className?: string;
 };
 
-const Spinner = ({ className = '' }: Props): h.JSX.Element => {
+const Spinner: FunctionComponent<Props> = ({ className = '' }: Props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

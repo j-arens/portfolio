@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import { h, FunctionComponent } from 'preact';
 import { useState } from 'preact/hooks';
 import { Result, match } from '~common/result';
 import Spinner from '../Spinner';
@@ -14,7 +14,7 @@ export type Values = {
   message: string;
 };
 
-const ContactForm = (): h.JSX.Element => {
+const ContactForm: FunctionComponent<{}> = () => {
   const [
     notifications,
     addNotification,

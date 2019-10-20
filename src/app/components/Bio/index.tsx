@@ -1,7 +1,7 @@
-import { h } from 'preact';
+import { h, FunctionComponent } from 'preact';
 const s = require('./style.pcss');
 
-const Bio = (): h.JSX.Element => {
+const Bio: FunctionComponent<{}> = () => {
   return (
     <section class={s.container}>
       <figure class={s.headshot}>

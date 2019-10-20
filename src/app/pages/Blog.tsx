@@ -1,40 +1,25 @@
-import { h } from 'preact';
+import { h, FunctionComponent } from 'preact';
 import Match from 'preact-router/match';
-import PostCard from '../components/PostCard';
+import RecentPosts from '../components/RecentPosts';
 import Post from '../components/Post';
-
 import { MatchProps } from '~app/type';
 
-type PostMeta = {
-  title: string;
-  excerpt: string;
-};
-
-const Blog = (): h.JSX.Element => {
-  const {
-    APP: { recentPosts },
-  } = self;
-  return (
-    <main role="main">
-      <Match>
-        {({ path }: MatchProps): h.JSX.Element => {
-          if (path === '/' || path === '/blog') {
-            return Object.entries(recentPosts).map(
-              ([slug, meta]: [string, PostMeta]) => (
-                <PostCard
-                  slug={slug}
-                  title={meta.title}
-                  excerpt={meta.excerpt}
-                />
-              ),
-            );
-          }
-          const slug = path.replace('/blog/', '');
+const Blog: FunctionComponent<{}> = () => (
+  <main role="main">
+    <Match>
+      {({ path }: MatchProps): h.JSX.Element => {
+        if (path === '/' || path === '/blog') {
+          return <RecentPosts />;
+        }
+        const slug = path.replace('/blog/', '');
+        if (slug) {
           return <Post id={slug} />;
-        }}
-      </Match>
-    </main>
-  );
-};
+        }
+        // @TODO: 404
+        return <div>lol 404</div>;
+      }}
+    </Match>
+  </main>
+);
 
 export default Blog;

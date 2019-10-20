@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import { h, FunctionComponent } from 'preact';
 import { fetchPost } from '~app/hooks';
 const s = require('./style.pcss');
 
@@ -6,7 +6,7 @@ type Props = {
   id: string;
 };
 
-const Post = ({ id }: Props): h.JSX.Element => {
+const Post: FunctionComponent<Props> = ({ id }: Props) => {
   const post = fetchPost(id);
   if (!post) {
     return <div>no post...</div>;

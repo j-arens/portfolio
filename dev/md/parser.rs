@@ -24,7 +24,7 @@ fn get_file_contents(path: &PathBuf) -> String {
 #[derive(Serialize, Deserialize)]
 struct Frontmatter {
   title: String,
-  excerpt: String,
+  summary: String,
   date: String,
 }
 
@@ -65,7 +65,7 @@ struct Post {
   title: String,
   slug: String,
   date: String,
-  excerpt: String,
+  summary: String,
   html: String,
 }
 
@@ -75,7 +75,7 @@ impl Post {
       title: fm.title.to_owned(),
       slug: slugify(fm.title.to_owned()),
       date: fm.date.to_owned(),
-      excerpt: fm.excerpt.to_owned(),
+      summary: fm.summary.to_owned(),
       html,
     }
   }
@@ -103,7 +103,7 @@ fn main() {
     let key = &post.slug;
     let value = json!({
       "title": post.title,
-      "excerpt": post.excerpt,
+      "summary": post.summary,
     });
     recent_posts.insert(key.to_string(), value);
   }

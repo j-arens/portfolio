@@ -1,7 +1,7 @@
 +++
 {
   "title": "This is a title",
-  "excerpt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu libero libero. Nullam sed convallis arcu. Donec tincidunt id tellus venenatis auctor. Mauris mattis libero vel lorem aliquet vehicula.",
+  "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu libero libero. Nullam sed convallis arcu. Donec tincidunt id tellus venenatis auctor. Mauris mattis libero vel lorem aliquet vehicula.",
   "date": "2019-09-14T23:11:01.218Z"
 }
 +++

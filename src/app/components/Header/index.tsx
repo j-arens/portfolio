@@ -1,9 +1,9 @@
-import { h } from 'preact';
+import { h, FunctionComponent } from 'preact';
 import { Link } from 'preact-router';
 import SiteNav from '../SiteNav';
 const s = require('./style.pcss');
 
-const Header = (): h.JSX.Element => {
+const Header: FunctionComponent<{}> = () => {
   return (
     <header class={s.Header}>
       <h1 class={s.HeaderTitle}>

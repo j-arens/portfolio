@@ -1,20 +1,20 @@
-import { h } from 'preact';
+import { h, FunctionComponent } from 'preact';
 import { Link } from 'preact-router';
 const s = require('./style.pcss');
 
 type Props = {
   slug: string;
   title: string;
-  excerpt: string;
+  summary: string;
 };
 
-const PostCard = ({ slug, title, excerpt }: Props): h.JSX.Element => {
+const Excerpt: FunctionComponent<Props> = ({ slug, title, summary }: Props) => {
   return (
     // @ts-ignore - cite attribute
-    <blockquote key={slug} class={s.PostCard} cite={`/${slug}`}>
+    <blockquote key={slug} class={s.Excerpt} cite={`/${slug}`}>
       <Link class={s.link} href={`/blog/${slug}`}>
         <h2 class={s.title}>{title}</h2>
-        <p class={s.excerpt}>{excerpt}</p>
+        <p class={s.summary}>{summary}</p>
         <p class={s.readMore}>
           Read More
           <svg
@@ -30,4 +30,4 @@ const PostCard = ({ slug, title, excerpt }: Props): h.JSX.Element => {
   );
 };
 
-export default PostCard;
+export default Excerpt;

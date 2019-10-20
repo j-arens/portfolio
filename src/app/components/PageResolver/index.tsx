@@ -1,19 +1,18 @@
-import { h } from 'preact';
+import { h, FunctionComponent } from 'preact';
 import { Suspense, lazy } from 'preact/compat';
+import { GLOBAL, Components } from '~common/type';
 
 type RouterProps = {
   path: string;
 };
 
 type OwnProps = {
-  page: string;
+  page: keyof Components;
 };
 
 type Props = RouterProps & OwnProps;
 
-const importPage = (
-  name: string,
-): Promise<{ default: () => h.JSX.Element }> => {
+const importPage = (name: string): Promise<{ default: FunctionComponent }> => {
   switch (name) {
     case 'Blog':
       return import(
@@ -28,16 +27,18 @@ const importPage = (
         /* webpackChunkName: "contact", webpackPrefetch: true */ '../../pages/Contact'
       );
     default: {
+      // @TODO: 404 component
       return Promise.resolve({ default: () => <div /> }); // eslint-disable-line react/display-name
     }
   }
 };
 
-const PageResolver = ({ page }: Props): h.JSX.Element => {
-  // @ts-ignore
-  if (page in self.APP.components) {
-    // @ts-ignore
-    return h(self.APP.components[page], {});
+const PageResolver: FunctionComponent<Props> = ({ page }: Props) => {
+  const {
+    APP: { components },
+  } = self as GLOBAL;
+  if (page in components) {
+    return h(components[page], {});
   }
   return (
     <Suspense fallback={<div>lol suspense fallback</div>}>

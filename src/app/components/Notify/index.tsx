@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import { h, FunctionComponent } from 'preact';
 const s = require('./style.pcss');
 
 export enum NotificationType {
@@ -21,11 +21,11 @@ type Props = {
   className?: string;
 };
 
-const Notify = ({
+const Notify: FunctionComponent<Props> = ({
   notifications,
   onDismiss,
   className = '',
-}: Props): h.JSX.Element | null => {
+}: Props) => {
   if (!notifications.length) {
     return null;
   }

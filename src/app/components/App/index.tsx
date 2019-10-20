@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import { h, FunctionComponent } from 'preact';
 import Router from 'preact-router';
 import Header from '../Header';
 import PageResolver from '../PageResolver';
@@ -8,7 +8,7 @@ type Props = {
   url?: string;
 };
 
-const App = ({ url }: Props): h.JSX.Element => {
+const App: FunctionComponent<Props> = ({ url }: Props) => {
   const routesToPages = {
     '/': 'Blog',
     '/blog/:slug': 'Blog',
