@@ -1,23 +1,22 @@
 .notification--default {
-  background-color: #1a202c;
+  background-color: var(--color-primary);
 }
 
 .notification--warning {
-  /* background-color: #ffa500; */
-  @apply bg-orange-500;
+  background-color: var(--color-warn);
 }
 
 .notification--danger {
-  @apply bg-red-500;
+  background-color: var(--color-danger);
 }
 
 .notification--success {
-  @apply bg-green-500;
+  background-color: var(--color-success);
 }
 
 .notification {
   @apply flex p-2 justify-between;
-  color: #f8f8f2;
+  color: var(--color-base);
   animation: scale-in 0.1s ease;
 }
 
@@ -26,7 +25,7 @@
 }
 
 .message {
-  @apply text-xl;
+  @apply text-lg;
 }
 
 .btnIcon {
