@@ -4,7 +4,6 @@ import App from '~app/components/App';
 import Blog from '~app/pages/Blog';
 import About from '~app/pages/About';
 import Contact from '~app/pages/Contact';
-import Article from '~app/pages/Article';
 
 const APP_TAG = '<!-- % APP % -->';
 const GLOBALS_TAG = '<!-- % GLOBALS % -->';
@@ -20,7 +19,6 @@ self.APP = {
     Blog,
     About,
     Contact,
-    Article,
   },
 };
 

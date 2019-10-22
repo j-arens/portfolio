@@ -27,7 +27,8 @@
 
 .input,
 .submit {
-  @apply border border-gray-900 leading-loose px-2 tracking-wide;
+  @apply border leading-loose px-2 tracking-wide;
+  border-color: var(--color-primary);
   border-width: 0.25rem;
 }
 
@@ -37,11 +38,11 @@
 }
 
 .input:invalid {
-  @apply border-red-500;
+  border-color: var(--color-danger);
 }
 
 .input.hide-invalid {
-  @apply border-gray-900;
+  border-color: var(--color-primary);
 }
 
 .submit:disabled {
@@ -50,8 +51,8 @@
 
 .submitting .submit,
 .submit:hover {
-  @apply bg-gray-900;
-  color: #f8f8f2; /* foreground from dracula */
+  background-color: var(--color-primary);
+  color: var(--color-base);
 }
 
 .submitSpinner {

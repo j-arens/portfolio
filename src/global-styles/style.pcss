@@ -1,9 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,700&display=swap');
 @tailwind base;
 
+:root {
+  --color-base: #f8f8f2;
+  --color-primary: theme('colors.gray.900');
+  --color-danger: theme('colors.red.500');
+  --color-warn: theme('colors.orange.500');
+  --color-success: theme('colors.green.500');
+}
+
 body {
-  @apply p-16 text-gray-900;
-  background-color: #f8f8f2; /* foreground from dracula */
+  @apply p-16;
+  color: var(--color-primary);
+  background-color: var(--color-base);
   min-height: 100%;
   font-family: 'IBM Plex Sans', sans-serif;
 }
