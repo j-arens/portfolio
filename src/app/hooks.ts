@@ -34,3 +34,16 @@ export function fetchPost(id: string): Post | null {
   }, [id]);
   return post;
 }
+
+export function useDelay(delay = 1000): boolean {
+  const [delayed, setDelayed] = useState<boolean>(false);
+  useEffect(() => {
+    if (delayed) {
+      return;
+    }
+    setTimeout(() => {
+      setDelayed(true);
+    }, delay);
+  }, []);
+  return delayed;
+}

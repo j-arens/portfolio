@@ -1,6 +1,8 @@
 import { h, FunctionComponent } from 'preact';
 import { Suspense, lazy } from 'preact/compat';
 import { GLOBAL, Components } from '~common/type';
+import NotFound from '../NotFound';
+import PageSpinner from '../PageSpinner';
 
 type RouterProps = {
   path: string;
@@ -27,8 +29,7 @@ const importPage = (name: string): Promise<{ default: FunctionComponent }> => {
         /* webpackChunkName: "contact", webpackPrefetch: true */ '../../pages/Contact'
       );
     default: {
-      // @TODO: 404 component
-      return Promise.resolve({ default: () => <div /> }); // eslint-disable-line react/display-name
+      return Promise.resolve({ default: NotFound });
     }
   }
 };
@@ -41,7 +42,7 @@ const PageResolver: FunctionComponent<Props> = ({ page }: Props) => {
     return h(components[page], {});
   }
   return (
-    <Suspense fallback={<div>lol suspense fallback</div>}>
+    <Suspense fallback={<PageSpinner />}>
       {h(lazy(() => importPage(page)), {})}
     </Suspense>
   );

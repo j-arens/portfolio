@@ -27,14 +27,18 @@ module.exports = ({ mode, src, root }) => {
         path.join(root, mode === 'production' ? '.env' : '.env.local'),
       ),
     }),
-    new MiniCssExtractPlugin({ filename: '[name].[hash].css' }),
+    new MiniCssExtractPlugin({
+      filename: '[name].[hash].css',
+    }),
     new HtmlWebpackPlugin({
       inject: 'head',
       template: path.join(src, 'index.ejs'),
       excludeChunks: ['cloudflare-worker'],
     }),
-    new ScriptExtHtmlWebpackPlugin({ defaultAttribute: 'defer' }),
-    new CleanWebpackPlugin(),
+    new ScriptExtHtmlWebpackPlugin({
+      defaultAttribute: 'defer',
+    }),
+    // new CleanWebpackPlugin(),
   ];
 
   if (process.env.BROWSER_SYNC === 'true') {
@@ -47,5 +51,7 @@ module.exports = ({ mode, src, root }) => {
     );
   }
 
-  return { plugins };
+  return {
+    plugins,
+  };
 };

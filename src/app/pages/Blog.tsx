@@ -2,6 +2,7 @@ import { h, FunctionComponent } from 'preact';
 import Match from 'preact-router/match';
 import RecentPosts from '../components/RecentPosts';
 import Post from '../components/Post';
+import NotFound from '../components/NotFound';
 import { MatchProps } from '~app/type';
 
 const Blog: FunctionComponent<{}> = () => (
@@ -15,8 +16,7 @@ const Blog: FunctionComponent<{}> = () => (
         if (slug) {
           return <Post id={slug} />;
         }
-        // @TODO: 404
-        return <div>lol 404</div>;
+        return <NotFound />;
       }}
     </Match>
   </main>
