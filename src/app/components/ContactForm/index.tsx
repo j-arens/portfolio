@@ -1,8 +1,8 @@
 import { h, FunctionComponent } from 'preact';
 import { useState } from 'preact/hooks';
 import { Result, match } from '~common/result';
+import { useNotifications } from '~app/hooks';
 import Spinner from '../Spinner';
-import { useNotifications } from '../Notify/hooks';
 import Notify, { NotificationType } from '../Notify';
 import submit from './submission';
 const s = require('./style.pcss');

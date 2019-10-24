@@ -1,22 +1,18 @@
 import { h, FunctionComponent } from 'preact';
 import Match from 'preact-router/match';
+import PostResolver from '../components/PostResolver';
 import RecentPosts from '../components/RecentPosts';
-import Post from '../components/Post';
-import NotFound from '../components/NotFound';
 import { MatchProps } from '~app/type';
 
 const Blog: FunctionComponent<{}> = () => (
   <main role="main">
     <Match>
       {({ path }: MatchProps): h.JSX.Element => {
-        if (path === '/' || path === '/blog') {
-          return <RecentPosts />;
+        const match = path.match(/\/blog\/(.+)/);
+        if (Array.isArray(match) && match[1]) {
+          return <PostResolver slug={match[1]} />;
         }
-        const slug = path.replace('/blog/', '');
-        if (slug) {
-          return <Post id={slug} />;
-        }
-        return <NotFound />;
+        return <RecentPosts />;
       }}
     </Match>
   </main>

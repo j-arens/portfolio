@@ -9,8 +9,14 @@ router.post('/contact', api.contact);
 
 router.all(
   '*',
-  (req: Request, res: MutableResponse): MutableResponse =>
-    res.body(app.render(req.url)),
+  (req: Request, res: MutableResponse): MutableResponse => {
+    // no static assets here...
+    if (req.url.match(/\..+$/)) {
+      return res.status(404);
+    }
+    const { pathname } = new URL(req.url);
+    return res.body(app.render(pathname));
+  },
 );
 
 export default router;

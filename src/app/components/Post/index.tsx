@@ -1,25 +1,16 @@
 import { h, FunctionComponent } from 'preact';
-import { fetchPost } from '~app/hooks';
 const s = require('./style.pcss');
 
 type Props = {
-  id: string;
+  title: string;
+  html: string;
 };
 
-const Post: FunctionComponent<Props> = ({ id }: Props) => {
-  const post = fetchPost(id);
-  if (!post) {
-    return <div>no post...</div>;
-  }
-  return (
-    <article class={s.article}>
-      <h2 class={s.title}>{post.title}</h2>
-      <div class="content" dangerouslySetInnerHTML={{ __html: post.html }} />
-    </article>
-  );
-};
+const Post: FunctionComponent<Props> = ({ title, html }: Props) => (
+  <article class={s.article}>
+    <h2 class={s.title}>{title}</h2>
+    <div class="content" dangerouslySetInnerHTML={{ __html: html }} />
+  </article>
+);
 
 export default Post;
-
-// store state in APP namespace on the window
-// store article fetcher on APP?

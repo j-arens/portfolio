@@ -17,7 +17,7 @@ export type Notification = {
 
 type Props = {
   notifications: Notification[];
-  onDismiss: (id: symbol) => void;
+  onDismiss?: (id: symbol) => void;
   className?: string;
 };
 
@@ -40,7 +40,7 @@ const Notify: FunctionComponent<Props> = ({
           ].join(' ')}
         >
           <p class={s.message}>{message}</p>
-          {dismissable ? (
+          {dismissable && onDismiss ? (
             <button class={s.btn} onClick={(): void => onDismiss(id)}>
               <svg
                 class={s.btnIcon}

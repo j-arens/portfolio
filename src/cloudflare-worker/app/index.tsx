@@ -11,10 +11,8 @@ const GLOBALS_TAG = '<!-- % GLOBALS % -->';
 // @ts-ignore
 self.APP = {
   recentPosts: JSON.parse(`<!-- % RECENT_POSTS % -->`),
-  posts: {},
-  storage: {
-    url: 'http://localhost:9500',
-  },
+  posts: new Map(),
+  storageUrl: 'http://localhost:9500',
   components: {
     Blog,
     About,
@@ -41,10 +39,8 @@ function injectGlobals(document: string): string {
     <script type="text/javascript">
       self.APP = {
         recentPosts: JSON.parse('${JSON.stringify(recentPosts)}'),
-        posts: {},
-        storage: {
-          url: 'http://localhost:9500',
-        },
+        posts: new Map(),
+        storageUrl: 'http://localhost:9500',
         components: {},
       };
     </script>
