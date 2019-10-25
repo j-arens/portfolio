@@ -15,6 +15,9 @@ const PostResolver: FunctionComponent<Props> = ({ slug }: Props) => {
     return <PageSpinner />;
   }
   if (result.isErr()) {
+    if (result.err === FetchPostErrors.NOT_FETCHED) {
+      return <PageSpinner />;
+    }
     if (result.err === FetchPostErrors.NOT_FOUND) {
       return <NotFound />;
     }

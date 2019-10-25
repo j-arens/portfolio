@@ -18,6 +18,7 @@ self.APP = {
     About,
     Contact,
   },
+  ssr: true,
 };
 
 function getDocument(): string {
@@ -42,6 +43,7 @@ function injectGlobals(document: string): string {
         posts: new Map(),
         storageUrl: 'http://localhost:9500',
         components: {},
+        ssr: false,
       };
     </script>
   `;

@@ -117,6 +117,7 @@ const ContactForm: FunctionComponent<{}> = () => {
             type="text"
             onChange={handleChange('name')}
             onBlur={handleBlur('name')}
+            autoComplete="name"
             required
           />
         </div>
@@ -130,6 +131,7 @@ const ContactForm: FunctionComponent<{}> = () => {
             type="email"
             onChange={handleChange('email')}
             onBlur={handleBlur('email')}
+            autoComplete="email"
             required
           />
         </div>

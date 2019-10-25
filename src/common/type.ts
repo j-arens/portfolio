@@ -28,5 +28,6 @@ export type GLOBAL = Self & {
     posts: Map<string, Post>;
     components: Components;
     storageUrl: string;
+    ssr: boolean;
   };
 };

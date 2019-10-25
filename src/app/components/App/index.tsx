@@ -1,5 +1,6 @@
 import { h, FunctionComponent } from 'preact';
-import Router from 'preact-router';
+// import Router from 'preact-router';
+import Router from '../Router';
 import Header from '../Header';
 import PageResolver from '../PageResolver';
 import NotFound from '../NotFound';
