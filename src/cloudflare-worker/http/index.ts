@@ -1,12 +1,14 @@
 import Router from './Router';
 import MutableResponse from './MutableResponse';
-import * as app from '../app';
+import ssr from '../ssr';
 import * as api from '../api';
 
 const router = new Router();
 
+// contact form submissions
 router.post('/contact', api.contact);
 
+// everthing else...
 router.all(
   '*',
   (req: Request, res: MutableResponse): MutableResponse => {
@@ -15,7 +17,7 @@ router.all(
       return res.status(404);
     }
     const { pathname } = new URL(req.url);
-    return res.body(app.render(pathname));
+    return res.body(ssr(pathname));
   },
 );
 
