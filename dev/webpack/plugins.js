@@ -1,23 +1,12 @@
 const path = require('path');
-const fs = require('fs');
 const { EnvironmentPlugin } = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-
-function parseDotEnv(envfile) {
-  if (!fs.existsSync(envfile)) {
-    throw new Error(`could not find env file at ${envfile}`);
-  }
-  const contents = fs.readFileSync(envfile, 'utf8');
-  return contents.split('\n').reduce((acc, pair) => {
-    const [key, value] = pair.split('=');
-    acc[key] = value;
-    return acc;
-  }, {});
-}
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const ReplacerPlugin = require('./ReplacerPlugin').default;
+const { parseDotEnv } = require('../utils');
 
 module.exports = ({ mode, src, root }) => {
   const plugins = [
@@ -27,16 +16,22 @@ module.exports = ({ mode, src, root }) => {
         path.join(root, mode === 'production' ? '.env' : '.env.local'),
       ),
     }),
-    new MiniCssExtractPlugin({
-      filename: '[name].[hash].css',
-    }),
+    new MiniCssExtractPlugin({ filename: '[name].[hash].css' }),
     new HtmlWebpackPlugin({
       inject: 'head',
       template: path.join(src, 'index.ejs'),
       excludeChunks: ['cloudflare-worker'],
     }),
-    new ScriptExtHtmlWebpackPlugin({
-      defaultAttribute: 'defer',
+    new ScriptExtHtmlWebpackPlugin({ defaultAttribute: 'defer' }),
+    new ReplacerPlugin({
+      '<!-- % RECENT_POSTS % -->': [
+        path.join(root, '/dist/cloudflare-worker.bundle.js'),
+        path.join(root, '/dist/recent_posts.json'),
+      ],
+      '<!-- % DOCUMENT % -->': [
+        path.join(root, '/dist/cloudflare-worker.bundle.js'),
+        path.join(root, '/dist/index.html'),
+      ],
     }),
     // new CleanWebpackPlugin(),
   ];
@@ -51,7 +46,5 @@ module.exports = ({ mode, src, root }) => {
     );
   }
 
-  return {
-    plugins,
-  };
+  return { plugins };
 };

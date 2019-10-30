@@ -4,48 +4,21 @@ const { Script } = require('vm');
 const nodeurl = require('url');
 const { Request, Response, Headers } = require('node-fetch');
 const fetch = require('node-fetch').default;
-const { getContents } = require('./utils');
+const { getContents } = require('../utils');
 
 const ROOT = path.resolve(__dirname, '../../');
 const DIST = path.join(ROOT, 'dist');
-const DOCUMENT_PATH = path.join(DIST, 'index.html');
 const SCRIPT_PATH = path.join(DIST, 'cloudflare-worker.bundle.js');
-const RECENT_POSTS_PATH = path.join(DIST, 'recent_posts.json');
-
-const DOCUMENT_TAG = '<!-- % DOCUMENT % -->';
-const RECENT_POSTS_TAG = '<!-- % RECENT_POSTS % -->';
-
-let response = undefined;
 
 /**
- * @param {string} tag
- * @param {string} replace
- * @param {string} subj
- */
-function replaceTag(tag, replace, subj) {
-  return subj.replace(tag, replace);
-}
-
-/**
- * @return {Promise<string>}
- */
-async function prepareScript() {
-  const document = await getContents(DOCUMENT_PATH);
-  const recentPosts = await getContents(RECENT_POSTS_PATH);
-  let script = await getContents(SCRIPT_PATH);
-  script = replaceTag(RECENT_POSTS_TAG, recentPosts, script);
-  return replaceTag(DOCUMENT_TAG, document, script);
-}
-
-/**
- * Extremely barebones mock of a cloudflare worker environment
- * @return {object}
+ * Extremely barebones mock of a cloudflare worker environment,
+ * just the things needed to get it all working
+ *
+ * @returns {object}
  */
 function createContext() {
   const ctx = {
-    __setResponse(res) {
-      response = res;
-    },
+    __response: undefined,
     __emitter: new EventEmitter(),
     get self() {
       return ctx;
@@ -64,6 +37,7 @@ function createContext() {
         );
       }
     },
+    // lol
     console: {
       log(...data) {
         console.log(...data);
@@ -74,9 +48,11 @@ function createContext() {
 }
 
 /**
+ * Sets up a request object and emits the 'fetch' event that is used
+ * to respond to requests in a CloudFlare worker
  *
  * @param {Express.Request} req
- * @return {string}
+ * @returns {string}
  */
 function createDispatcher(req) {
   const url = `http://localhost${req.originalUrl}`;
@@ -93,7 +69,7 @@ function createDispatcher(req) {
       __emitter.emit('fetch', {
         request,
         respondWith(response) {
-          __setResponse(response);
+          __response = response;
         },
       });
     })();
@@ -101,17 +77,20 @@ function createDispatcher(req) {
 }
 
 /**
+ * Gets the cloudflare-worker bundle and runs it in an isolated
+ * vm with a special context that essentially mocks a cloudflare
+ * worker environment
  *
  * @param {Express.Request} req
- * @return {Response}
+ * @returns {Response}
  */
 async function runWorker(req) {
-  const script = await prepareScript();
+  const script = await getContents(SCRIPT_PATH);
   const context = createContext();
   const dispatch = createDispatcher(req);
   const instance = new Script(script + dispatch);
   instance.runInNewContext(context);
-  const res = await response;
+  const res = await context.__response;
   return res;
 }
 

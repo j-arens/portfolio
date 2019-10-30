@@ -3,7 +3,7 @@
 const GLOBALS_TAG = '<!-- % GLOBALS % -->';
 
 // placeholder tag used in the document to denote where
-// the ssr'd app should go
+// the ssr'd markup should go
 const APP_TAG = '<!-- % APP % -->';
 
 // this is a placeholder for the index.html file
