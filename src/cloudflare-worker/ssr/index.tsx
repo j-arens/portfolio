@@ -2,6 +2,7 @@ import { GLOBAL } from '~common/type';
 import Blog from '~app/pages/Blog';
 import About from '~app/pages/About';
 import Contact from '~app/pages/Contact';
+import Post from '~app/pages/Post';
 import document from './document';
 import app from './app';
 
@@ -17,6 +18,7 @@ const recentPosts = JSON.parse(`<!-- % RECENT_POSTS % -->`);
     Blog,
     About,
     Contact,
+    Post,
   },
   ssr: true,
 };

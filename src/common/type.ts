@@ -18,6 +18,7 @@ export type Components = {
   Blog: FunctionComponent;
   About: FunctionComponent;
   Contact: FunctionComponent;
+  Post: FunctionComponent;
 };
 
 type Self = Window & typeof globalThis;

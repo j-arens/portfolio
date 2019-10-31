@@ -12,7 +12,7 @@ const Excerpt: FunctionComponent<Props> = ({ slug, title, summary }: Props) => {
   return (
     // @ts-ignore - cite attribute
     <blockquote key={slug} class={s.Excerpt} cite={`/${slug}`}>
-      <Link class={s.link} href={`/blog/${slug}`}>
+      <Link class={s.link} href={`/${slug}`}>
         <h2 class={s.title}>{title}</h2>
         <p class={s.summary}>{summary}</p>
         <p class={s.readMore}>

@@ -1,5 +1,4 @@
 import { h, FunctionComponent } from 'preact';
-// import Router from 'preact-router';
 import Router from '../Router';
 import Header from '../Header';
 import PageResolver from '../PageResolver';
@@ -13,9 +12,9 @@ type Props = {
 const App: FunctionComponent<Props> = ({ url }: Props) => {
   enum RoutesToPages {
     '/' = 'Blog',
-    '/blog/:slug' = 'Blog',
     '/about' = 'About',
     '/contact' = 'Contact',
+    '/:slug' = 'Post',
   }
   return (
     <div id="app">
