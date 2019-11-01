@@ -27,8 +27,7 @@
       "~service-worker/*": ["src/service-worker/*"],
       "~global-styles/*": ["src/global-styles/*"],
       "~posts/*": ["src/posts/*"],
-      "~common/*": ["src/common/*"],
-      "~post-html-worker/*": ["src/post-html-worker/*"]
+      "~common/*": ["src/common/*"]
     }
   },
   "include": [
