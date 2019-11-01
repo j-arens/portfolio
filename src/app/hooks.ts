@@ -26,7 +26,7 @@ export function useFetchPost(
       return;
     }
     setFetching(true);
-    fetch(`${storageUrl}/${slug}.json`)
+    fetch(`${storageUrl}/posts/${slug.replace(/^\//, '')}.json`)
       .then(async res => {
         if (!res.ok) {
           if (res.status === 404) {
