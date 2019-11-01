@@ -30,7 +30,7 @@ const importPage = (name: string): Promise<{ default: FunctionComponent }> => {
       );
     case 'Post':
       return import(
-        /* webpackChunkName: "contact", webpackPrefetch: true */ '../../pages/Post'
+        /* webpackChunkName: "post", webpackPrefetch: true */ '../../pages/Post'
       );
     default: {
       return Promise.resolve({ default: NotFound });

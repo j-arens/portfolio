@@ -6,6 +6,7 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 // const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReplacerPlugin = require('./ReplacerPlugin').default;
+const SyntaxHighlightPlugin = require('./SyntaxHighlightPlugin').default;
 const { parseDotEnv } = require('../utils');
 
 module.exports = ({ mode, src, root }) => {
@@ -33,6 +34,7 @@ module.exports = ({ mode, src, root }) => {
         path.join(root, '/dist/index.html'),
       ],
     }),
+    new SyntaxHighlightPlugin(path.join(root, '/dist/posts')),
     // new CleanWebpackPlugin(),
   ];
 

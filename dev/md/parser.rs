@@ -114,10 +114,14 @@ fn main() {
     .write_all(recent_posts_json.as_bytes())
     .unwrap();
 
+  if !Path::new("./dist/posts").exists() {
+    fs::create_dir("./dist/posts").expect("failed to create posts directory")
+  }
+
   // create post json
   for post in posts.iter() {
     let json = serde_json::to_string(&post).unwrap();
-    let path = format!("./dist/{}.json", post.slug);
+    let path = format!("./dist/posts/{}.json", post.slug);
     let mut file = File::create(Path::new(&path)).unwrap();
     file.write_all(json.as_bytes()).unwrap();
   }

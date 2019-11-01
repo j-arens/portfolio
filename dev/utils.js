@@ -3,6 +3,7 @@ const { promisify } = require('util');
 
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
+const readdirAsync = promisify(fs.readdir);
 
 /**
  * @param {string} filepath
@@ -48,8 +49,23 @@ function parseDotEnv(envfile) {
   }, {});
 }
 
+/**
+ * @param {string} dir
+ * @returns {Promise<string[]>}
+ */
+async function listFiles(dir) {
+  try {
+    const files = await readdirAsync(dir);
+    return files;
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+}
+
 module.exports = {
   parseDotEnv,
   getContents,
   writeContents,
+  listFiles,
 };

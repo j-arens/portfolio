@@ -1,4 +1,5 @@
 import { h, FunctionComponent } from 'preact';
+import '~global-styles/hljs.css';
 const s = require('./style.pcss');
 
 type Props = {

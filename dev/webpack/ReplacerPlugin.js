@@ -15,7 +15,7 @@ class ReplacerPlugin {
    * @param {webpack.compiler} compiler
    */
   apply(compiler) {
-    compiler.hooks.done.tap('ReplacerPlugin', this.doReplacements);
+    compiler.hooks.afterEmit.tap('ReplacerPlugin', this.doReplacements);
   }
 
   async doReplacements() {
