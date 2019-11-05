@@ -18,6 +18,9 @@ const storage = new Storage({
   },
 });
 
+/**
+ * @param {string[]} files
+ */
 async function push(files) {
   for (const file of files) {
     try {
@@ -38,6 +41,9 @@ async function push(files) {
   }
 }
 
+/**
+ * @returns {Promise<string[]>}
+ */
 async function listAssets() {
   const assets = await listFiles(DIST);
   return assets
@@ -46,6 +52,9 @@ async function listAssets() {
     .map(asset => path.join(DIST, asset));
 }
 
+/**
+ * @returns {Promise<string[]>}
+ */
 async function listPosts() {
   const posts = await listFiles(POSTS);
   return posts.map(post => path.join(POSTS, post));
