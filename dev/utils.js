@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { promisify } = require('util');
+const path = require('path');
 
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
@@ -55,11 +56,36 @@ function parseDotEnv(envfile) {
  */
 async function listFiles(dir) {
   try {
-    const files = await readdirAsync(dir);
-    return files;
+    const dirents = await readdirAsync(dir, {
+      withFileTypes: true,
+    });
+    return dirents
+      .filter(dirent => !dirent.isDirectory())
+      .map(dirent => dirent.name);
   } catch (err) {
     console.error(err);
     process.exit(1);
+  }
+}
+
+// @TODO: image types
+/**
+ * @param {string} file
+ * @returns {string}
+ */
+function getContentType(file) {
+  const ext = path.extname(file);
+  switch (ext) {
+    case '.js':
+      return 'text/javascript';
+    case '.html':
+      return 'text/html';
+    case '.json':
+      return 'application/json';
+    case '.css':
+      return 'text/css';
+    default:
+      return 'application/octet-stream';
   }
 }
 
@@ -68,4 +94,5 @@ module.exports = {
   getContents,
   writeContents,
   listFiles,
+  getContentType,
 };

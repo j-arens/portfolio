@@ -20,6 +20,7 @@ export default (app: string, recentPosts: string): string => {
       storageUrl: '${process.env.STORAGE_URL}',
       components: {},
       ssr: false,
+      version: '${process.env.VERSION}',
     };
   </script>
   `;

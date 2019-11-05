@@ -21,6 +21,7 @@ const recentPosts = JSON.parse(`<!-- % RECENT_POSTS % -->`);
     Post,
   },
   ssr: true,
+  version: `${process.env.VERSION}`,
 };
 
 export default (url: string): string => document(app(url), recentPosts);

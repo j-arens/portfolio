@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@cloudflare/wrangler": "^1.2.0",
+    "@google-cloud/storage": "^4.1.0",
     "@types/node": "^12.7.3",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",

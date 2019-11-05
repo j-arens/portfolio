@@ -8,22 +8,29 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const ReplacerPlugin = require('./ReplacerPlugin').default;
 const SyntaxHighlightPlugin = require('./SyntaxHighlightPlugin').default;
 const { parseDotEnv } = require('../utils');
+const { version } = require('../../package.json');
 
 module.exports = ({ mode, src, root }) => {
   const plugins = [
     new EnvironmentPlugin({
       NODE_ENV: mode,
+      VERSION: version,
+      PORT: process.env.BROWSER_SYNC === 'true' ? '9501' : '9500',
       ...parseDotEnv(
         path.join(root, mode === 'production' ? '.env' : '.env.local'),
       ),
     }),
-    new MiniCssExtractPlugin({ filename: '[name].[hash].css' }),
+    new MiniCssExtractPlugin({
+      filename: '[name].[hash].css',
+    }),
     new HtmlWebpackPlugin({
       inject: 'head',
       template: path.join(src, 'index.ejs'),
       excludeChunks: ['cloudflare-worker'],
     }),
-    new ScriptExtHtmlWebpackPlugin({ defaultAttribute: 'defer' }),
+    new ScriptExtHtmlWebpackPlugin({
+      defaultAttribute: 'defer',
+    }),
     new ReplacerPlugin({
       '<!-- % RECENT_POSTS % -->': [
         path.join(root, '/dist/cloudflare-worker.bundle.js'),
@@ -48,5 +55,7 @@ module.exports = ({ mode, src, root }) => {
     );
   }
 
-  return { plugins };
+  return {
+    plugins,
+  };
 };

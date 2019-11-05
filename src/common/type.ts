@@ -30,5 +30,6 @@ export type GLOBAL = Self & {
     components: Components;
     storageUrl: string;
     ssr: boolean;
+    version: string;
   };
 };

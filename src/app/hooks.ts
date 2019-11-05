@@ -3,6 +3,29 @@ import { Notification } from './components/Notify';
 import { Result, ok, err } from '~common/result';
 import { GLOBAL, Post } from '~common/type';
 
+// @TODO: need to clean things up and maybe
+// match dir layout locally and in prod to prevent
+// having to do all of this nonsense
+function getAssetsUrl(): string {
+  const env = `${process.env.NODE_ENV}` || '';
+  if (env !== 'production') {
+    const port = `${process.env.PORT}` || '';
+    return `http://localhost:${port}`;
+  }
+  const {
+    APP: { storageUrl, version },
+  } = self as GLOBAL;
+  return `${storageUrl}/${version}`;
+}
+
+function getPostsUrl(): string {
+  const env = `${process.env.NODE_ENV}` || '';
+  if (env !== 'production') {
+    return `${getAssetsUrl()}/posts`;
+  }
+  return getAssetsUrl();
+}
+
 export enum FetchPostErrors {
   'NOT_FETCHED',
   'NOT_FOUND',
@@ -13,7 +36,7 @@ export function useFetchPost(
   slug: string,
 ): [boolean, Result<Post, FetchPostErrors>] {
   const {
-    APP: { posts, storageUrl },
+    APP: { posts },
   } = self as GLOBAL;
   const [fetching, setFetching] = useState<boolean>(false);
   const [result, setResult] = useState<Result<Post, FetchPostErrors>>(
@@ -26,7 +49,7 @@ export function useFetchPost(
       return;
     }
     setFetching(true);
-    fetch(`${storageUrl}/posts/${slug.replace(/^\//, '')}.json`)
+    fetch(`${getPostsUrl()}/${slug.replace(/^\//, '')}.json`)
       .then(async res => {
         if (!res.ok) {
           if (res.status === 404) {
