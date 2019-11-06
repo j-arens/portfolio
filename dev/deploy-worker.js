@@ -7,6 +7,9 @@ const EMAIL = `${process.env.CF_EMAIL}`;
 const ACCOUNT_ID = `${process.env.CF_ACCOUNT_ID}`;
 const API_KEY = `${process.env.CF_KEY}`;
 
+/**
+ * @returns {Promise<string[]>}
+ */
 async function getWorker() {
   const contents = await getContents(
     path.join(DIST, 'cloudflare-worker.bundle.js'),
@@ -14,6 +17,10 @@ async function getWorker() {
   return contents;
 }
 
+/**
+ * @param {string} worker
+ * @returns {fetch.Request}
+ */
 function createRequest(worker) {
   const headers = new fetch.Headers({
     'X-Auth-Email': EMAIL,
