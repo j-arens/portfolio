@@ -1,14 +1,14 @@
 // placeholder tag used in the document to denote where
 // the globals should go
-const GLOBALS_TAG = '<!-- % GLOBALS % -->';
+const GLOBALS_TAG = '% GLOBALS %';
 
 // placeholder tag used in the document to denote where
 // the ssr'd markup should go
-const APP_TAG = '<!-- % APP % -->';
+const APP_TAG = '% APP %';
 
 // this is a placeholder for the index.html file
 // generated during webpack compilation
-const document = `<!-- % DOCUMENT % -->`;
+const document = `% DOCUMENT %`;
 
 export default (app: string, recentPosts: string): string => {
   // client side globals that need to be injected into the document

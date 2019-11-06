@@ -8,7 +8,7 @@ import app from './app';
 
 // this is a placeholder for the recent_posts.json that is generated
 // when the markdown posts are parsed
-const recentPosts = JSON.parse(`<!-- % RECENT_POSTS % -->`);
+const recentPosts = JSON.parse(`% RECENT_POSTS %`);
 
 (self as GLOBAL).APP = {
   recentPosts,

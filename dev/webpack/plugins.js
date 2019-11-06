@@ -32,11 +32,11 @@ module.exports = ({ mode, src, root }) => {
       defaultAttribute: 'defer',
     }),
     new ReplacerPlugin({
-      '<!-- % RECENT_POSTS % -->': [
+      '% RECENT_POSTS %': [
         path.join(root, '/dist/cloudflare-worker.bundle.js'),
         path.join(root, '/dist/recent_posts.json'),
       ],
-      '<!-- % DOCUMENT % -->': [
+      '% DOCUMENT %': [
         path.join(root, '/dist/cloudflare-worker.bundle.js'),
         path.join(root, '/dist/index.html'),
       ],

@@ -22,7 +22,10 @@ class ReplacerPlugin {
     for (const [tag, paths] of Object.entries(this.replacements)) {
       const subj = await getContents(paths[0]);
       const replacement = await getContents(paths[1]);
-      const replaced = subj.replace(tag, replacement);
+      const replaced = subj.replace(
+        tag,
+        replacement.replace(/(?:\r\n|\r|\n)/gm, ''),
+      );
       await writeContents(paths[0], replaced);
     }
   }
