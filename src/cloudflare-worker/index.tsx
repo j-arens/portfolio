@@ -12,7 +12,7 @@ self.addEventListener('fetch', (event: Event) => {
       event,
       new Response('internal server error', {
         status: 500,
-        statusText: 'internal server error',
+        statusText: err.message,
       }),
     );
   }

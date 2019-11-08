@@ -24,7 +24,9 @@ class ReplacerPlugin {
       const replacement = await getContents(paths[1]);
       const replaced = subj.replace(
         tag,
-        replacement.replace(/(?:\r\n|\r|\n)/gm, ''),
+        // webpack's optimize minification garbles up replaced strings on prod builds
+        // remove newlines/breaks and escape double quotes
+        replacement.replace(/(?:\r\n|\r|\n)/gm, '').replace(/"/gm, '\\"'),
       );
       await writeContents(paths[0], replaced);
     }

@@ -6,10 +6,20 @@ const output = require('./output');
 const modules = require('./modules');
 const plugins = require('./plugins');
 const optimization = require('./optimization');
+const { parseDotEnv } = require('../utils');
+const { version } = require('../../package.json');
 
 const root = path.resolve(__dirname, '../../');
 const src = path.join(root, 'src');
 const mode = process.env.NODE_ENV || 'production';
+
+process.env = {
+  ...process.env,
+  ...parseDotEnv(
+    path.join(root, mode === 'production' ? '.env' : '.env.local'),
+  ),
+  VERSION: version,
+};
 
 const config = {
   mode,
@@ -23,6 +33,7 @@ const config = {
     root,
   }),
   ...output({
+    mode,
     root,
   }),
   ...modules(),

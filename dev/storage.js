@@ -28,7 +28,6 @@ async function push(files) {
       console.log(`pushing ${destination}...`);
       await storage.bucket(BUCKET).upload(file, {
         destination,
-        public: true,
         gzip: true,
         metadata: {
           contentType: getContentType(file),

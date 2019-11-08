@@ -7,18 +7,13 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 // const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReplacerPlugin = require('./ReplacerPlugin').default;
 const SyntaxHighlightPlugin = require('./SyntaxHighlightPlugin').default;
-const { parseDotEnv } = require('../utils');
-const { version } = require('../../package.json');
 
 module.exports = ({ mode, src, root }) => {
   const plugins = [
     new EnvironmentPlugin({
+      ...process.env,
       NODE_ENV: mode,
-      VERSION: version,
       PORT: process.env.BROWSER_SYNC === 'true' ? '9501' : '9500',
-      ...parseDotEnv(
-        path.join(root, mode === 'production' ? '.env' : '.env.local'),
-      ),
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[hash].css',
