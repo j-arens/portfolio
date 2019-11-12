@@ -1,13 +1,25 @@
 .NavLink {
-  @apply uppercase tracking-wide text-2xl;
-  padding-bottom: 0.4rem;
+  @apply block uppercase tracking-wide text-2xl;
+  padding-bottom: 0.25rem;
+
+  display: block;
 }
 
 .NavLink + .NavLink {
-  @apply ml-12;
+  @apply mt-4;
 }
 
 .NavLink--current {
   @apply border-0 border-b-2;
   border-color: var(--color-primary);
+}
+
+@media screen and (min-width: 500px) {
+  .NavLink {
+    @apply inline-block;
+  }
+
+  .NavLink + .NavLink {
+    @apply ml-12;
+  }
 }
