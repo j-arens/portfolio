@@ -10,9 +10,15 @@
 }
 
 body {
-  @apply p-16;
+  @apply p-8;
   color: var(--color-primary);
   background-color: var(--color-base);
   min-height: 100%;
   font-family: 'IBM Plex Sans', sans-serif;
+}
+
+@media screen and (min-width: 500px) {
+  body {
+    @apply p-16;
+  }
 }

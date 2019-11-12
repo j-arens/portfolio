@@ -1,7 +1,17 @@
 .Header {
-  @apply flex justify-between mb-48;
+  @apply flex flex-col mb-16;
 }
 
 .HeaderTitle {
-  @apply uppercase font-bold text-4xl tracking-widest;
+  @apply uppercase font-bold text-4xl tracking-widest mb-16;
+}
+
+@media screen and (min-width: 1000px) {
+  .Header {
+    @apply flex-row justify-between mb-48;
+  }
+
+  .HeaderTitle {
+    @apply mb-0;
+  }
 }
