@@ -12,7 +12,7 @@ type Props = {
 const App: FunctionComponent<Props> = ({ url }: Props) => {
   enum RoutesToPages {
     '/' = 'Blog',
-    '/about' = 'About',
+    // '/about' = 'About',
     '/contact' = 'Contact',
     '/:slug' = 'Post',
   }

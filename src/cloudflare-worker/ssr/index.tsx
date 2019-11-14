@@ -1,6 +1,6 @@
 import { GLOBAL } from '~common/type';
 import Blog from '~app/pages/Blog';
-import About from '~app/pages/About';
+// import About from '~app/pages/About';
 import Contact from '~app/pages/Contact';
 import Post from '~app/pages/Post';
 import document from './document';
@@ -16,7 +16,7 @@ const recentPosts = JSON.parse(`% RECENT_POSTS %`);
   storageUrl: `${process.env.STORAGE_URL}`,
   components: {
     Blog,
-    About,
+    // About,
     Contact,
     Post,
   },
