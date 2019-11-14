@@ -7,7 +7,7 @@ const s = require('./style.pcss');
 const SiteNav: FunctionComponent<{}> = () => {
   const links = {
     '/': 'Blog',
-    '/about': 'About',
+    // '/about': 'About',
     '/contact': 'Contact',
   };
   return (

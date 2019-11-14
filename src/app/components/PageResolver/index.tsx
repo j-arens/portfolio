@@ -20,10 +20,10 @@ const importPage = (name: string): Promise<{ default: FunctionComponent }> => {
       return import(
         /* webpackChunkName: "blog", webpackPrefetch: true */ '../../pages/Blog'
       );
-    case 'About':
-      return import(
-        /* webpackChunkName: "about", webpackPrefetch: true */ '../../pages/About'
-      );
+    // case 'About':
+    //   return import(
+    //     /* webpackChunkName: "about", webpackPrefetch: true */ '../../pages/About'
+    //   );
     case 'Contact':
       return import(
         /* webpackChunkName: "contact", webpackPrefetch: true */ '../../pages/Contact'
