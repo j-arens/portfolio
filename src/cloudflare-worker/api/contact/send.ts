@@ -1,13 +1,22 @@
 import { ValidatedSubmission, ContactSubmissionErrors } from './type';
 import { Result, err, ok } from '~common/result';
 
+type Receiver = {
+  email: string;
+};
+
+type Content = {
+  type: 'text/plain';
+  value: string;
+};
+
+type Personalization = {
+  to: Receiver[];
+};
+
 type MailReq = {
   subject: string;
-  personalizations: {
-    to: {
-      email: string;
-    };
-  };
+  personalizations: Personalization[];
   from: {
     email: string;
     name: string;
@@ -16,10 +25,7 @@ type MailReq = {
     email: string;
     name: string;
   };
-  content: {
-    type: 'text/plain';
-    value: string;
-  };
+  content: Content[];
 };
 
 function createReqJson({
@@ -30,11 +36,15 @@ function createReqJson({
 }: ValidatedSubmission): MailReq {
   return {
     subject,
-    personalizations: {
-      to: {
-        email: `${process.env.CONTACT_EMAIL}`,
+    personalizations: [
+      {
+        to: [
+          {
+            email: `${process.env.CONTACT_EMAIL}`,
+          },
+        ],
       },
-    },
+    ],
     from: {
       email,
       name,
@@ -44,10 +54,12 @@ function createReqJson({
       email,
       name,
     },
-    content: {
-      type: 'text/plain',
-      value: message,
-    },
+    content: [
+      {
+        type: 'text/plain',
+        value: message,
+      },
+    ],
   };
 }
 
@@ -55,7 +67,8 @@ async function sendReq(
   mail: MailReq,
 ): Promise<Result<null, ContactSubmissionErrors>> {
   const headers = new Headers({
-    Authorization: `Bearer ${process.env.SENDGRID_KEY}`,
+    authorization: `Bearer ${process.env.SENDGRID_KEY}`,
+    'content-type': 'application/json',
   });
   const req = new Request(`${process.env.SENDGRID_ENDPOINT}`, {
     headers,
@@ -66,7 +79,8 @@ async function sendReq(
     const res = await fetch(req);
     if (!res.ok) {
       // @TODO: log
-      console.log(res.status, res.statusText);
+      const json = await res.json();
+      console.log(res.status, res.statusText, json);
       return err(ContactSubmissionErrors.SENDGRID_REQ_FAILED);
     }
   } catch (e) {

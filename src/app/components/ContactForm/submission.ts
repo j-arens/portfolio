@@ -26,8 +26,8 @@ export default async function(values: Values): Promise<Result<null, string>> {
         'Content-type': 'application/json',
       }),
     });
-    const { code } = await res.json();
     if (!res.ok) {
+      const { code } = await res.json();
       return err(errCodeToMsg[code as ContactSubmissionErrors]);
     }
     return ok(null);
