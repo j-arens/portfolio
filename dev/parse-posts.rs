@@ -11,14 +11,17 @@ use std::path::{Path, PathBuf};
 
 fn get_file_paths(dir: &Path) -> Vec<PathBuf> {
   fs::read_dir(dir)
-    .unwrap()
+    .expect(&format!("failed to read dir {}", dir.display()))
     .filter_map(|entry| entry.ok())
     .map(|entry| entry.path())
     .collect::<Vec<PathBuf>>()
 }
 
 fn get_file_contents(path: &PathBuf) -> String {
-  fs::read_to_string(path).unwrap()
+  fs::read_to_string(path).expect(&format!(
+    "failed to read file contents from {}",
+    path.display()
+  ))
 }
 
 #[derive(Serialize, Deserialize)]
@@ -83,7 +86,7 @@ impl Post {
 
 fn main() {
   let fm_parser = FrontmatterParser::new();
-  let files = get_file_paths(Path::new("./src/posts"));
+  let files = get_file_paths(Path::new("src/posts"));
 
   let posts = files
     .iter()
@@ -109,10 +112,11 @@ fn main() {
   }
 
   let recent_posts_json = serde_json::to_string(&recent_posts).unwrap();
-  let mut recent_posts_file = File::create(Path::new("./dist/recent_posts.json")).unwrap();
+  let mut recent_posts_file = File::create(Path::new("dist/recent_posts.json"))
+    .expect("failed to create recent posts json file");
   recent_posts_file
     .write_all(recent_posts_json.as_bytes())
-    .unwrap();
+    .expect("failed to write to recent posts json file");
 
   if !Path::new("./dist/posts").exists() {
     fs::create_dir("./dist/posts").expect("failed to create posts directory")
@@ -122,7 +126,10 @@ fn main() {
   for post in posts.iter() {
     let json = serde_json::to_string(&post).unwrap();
     let path = format!("./dist/posts/{}.json", post.slug);
-    let mut file = File::create(Path::new(&path)).unwrap();
-    file.write_all(json.as_bytes()).unwrap();
+    let mut file =
+      File::create(Path::new(&path)).expect(&format!("failed to create post file {}", path));
+    file
+      .write_all(json.as_bytes())
+      .expect(&format!("failed to write to post file {}", path));
   }
 }
