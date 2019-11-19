@@ -35,22 +35,6 @@ async function writeContents(filepath, contents) {
 }
 
 /**
- * @param {string} envfile
- * @returns {object}
- */
-function parseDotEnv(envfile) {
-  if (!fs.existsSync(envfile)) {
-    throw new Error(`could not find env file at ${envfile}`);
-  }
-  const contents = fs.readFileSync(envfile, 'utf8');
-  return contents.split('\n').reduce((acc, pair) => {
-    const [key, value] = pair.split('=');
-    acc[key] = value;
-    return acc;
-  }, {});
-}
-
-/**
  * @param {string} dir
  * @returns {Promise<string[]>}
  */
@@ -90,7 +74,6 @@ function getContentType(file) {
 }
 
 module.exports = {
-  parseDotEnv,
   getContents,
   writeContents,
   listFiles,
