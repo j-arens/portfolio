@@ -111,6 +111,10 @@ fn main() {
     recent_posts.insert(key.to_string(), value);
   }
 
+  if !Path::new("dist/").exists() {
+    fs::create_dir("dist").expect("failed to create dist directory");
+  }
+
   let recent_posts_json = serde_json::to_string(&recent_posts).unwrap();
   let mut recent_posts_file = File::create(Path::new("dist/recent_posts.json"))
     .expect("failed to create recent posts json file");
@@ -118,14 +122,14 @@ fn main() {
     .write_all(recent_posts_json.as_bytes())
     .expect("failed to write to recent posts json file");
 
-  if !Path::new("./dist/posts").exists() {
-    fs::create_dir("./dist/posts").expect("failed to create posts directory")
+  if !Path::new("dist/posts").exists() {
+    fs::create_dir("dist/posts").expect("failed to create posts directory")
   }
 
   // create post json
   for post in posts.iter() {
     let json = serde_json::to_string(&post).unwrap();
-    let path = format!("./dist/posts/{}.json", post.slug);
+    let path = format!("dist/posts/{}.json", post.slug);
     let mut file =
       File::create(Path::new(&path)).expect(&format!("failed to create post file {}", path));
     file
