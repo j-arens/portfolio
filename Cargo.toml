@@ -5,8 +5,8 @@ authors = ["j-arens <arens.joshua@sbcglobal.net>"]
 edition = "2018"
 
 [[bin]]
-name = "mdparser"
-path = "dev/md/parser.rs"
+name = "parse-posts"
+path = "dev/parse-posts.rs"
 
 [dependencies]
 pulldown-cmark = "0.6.0"

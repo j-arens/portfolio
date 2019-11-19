@@ -8,9 +8,9 @@
   "scripts": {
     "build": "webpack --config ./dev/webpack/webpack.config.js",
     "build:dev": "NODE_ENV=development yarn build",
+    "build:posts": "cargo run",
     "build:watch": "yarn build:dev --w",
     "devserver": "node dev/server/index.js",
-    "md:parse": "cargo run",
     "start": "BROWSER_SYNC=true yarn build:watch"
   },
   "dependencies": {
