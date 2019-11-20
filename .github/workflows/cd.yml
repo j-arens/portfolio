@@ -33,7 +33,7 @@ jobs:
       - name: push assets to cloud storage
         env:
           GC_EMAIL: ${{ secrets.gc_email }}
-          GC_PKEY: ${{ secrets.gc_pkey_b64 }}
+          GC_PKEY_B64: ${{ secrets.gc_pkey_b64 }}
           GC_PROJECT_ID: ${{ secrets.gc_project_id }}
           GC_BUCKET_NAME: ${{ secrets.gc_bucket_name }}
         run: node dev/storage.js
