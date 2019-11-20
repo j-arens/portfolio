@@ -4,10 +4,11 @@ import { MatchProps } from '~app/type';
 import PageSpinner from '~app/components/PageSpinner';
 import { GLOBAL } from '~common/type';
 import PostResolver from '../components/PostResolver';
+require('./style.pcss');
 
 const Post: FunctionComponent<{}> = () => {
   return (
-    <main role="main">
+    <main class="has-dynamic-styles" role="main">
       <Match>
         {({ path }: MatchProps): h.JSX.Element => {
           const {

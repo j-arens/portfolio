@@ -1,0 +1,17 @@
+:global(.has-dynamic-styles) {
+  animation: load-in 0.3s ease 0s;
+  opacity: 1;
+}
+
+@keyframes load-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: invert(1);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: none;
+  }
+}
