@@ -8,7 +8,10 @@ const POSTS = path.join(DIST, '/posts');
 const BUCKET = `${process.env.GC_BUCKET_NAME}` || '';
 const PROJECT_ID = `${process.env.GC_PROJECT_ID}` || '';
 const EMAIL = `${process.env.GC_EMAIL}` || '';
-const PKEY = `${process.env.GC_PKEY}` || '';
+const PKEY = Buffer.from(
+  `${process.env.GC_PKEY_B64}` || '',
+  'base64',
+).toString();
 
 const storage = new Storage({
   projectId: PROJECT_ID,
