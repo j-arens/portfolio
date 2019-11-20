@@ -1,8 +1,9 @@
 import { h, FunctionComponent } from 'preact';
 import RecentPosts from '../components/RecentPosts';
+require('./style.pcss');
 
 const Blog: FunctionComponent<{}> = () => (
-  <main role="main">
+  <main class="has-dynamic-styles" role="main">
     <RecentPosts />
   </main>
 );

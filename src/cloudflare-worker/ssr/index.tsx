@@ -6,8 +6,7 @@ import Post from '~app/pages/Post';
 import document from './document';
 import app from './app';
 
-// this is a placeholder for the recent_posts.json that is generated
-// when the markdown posts are parsed
+// this is a placeholder for the recent_posts.json
 const recentPosts = JSON.parse(`% RECENT_POSTS %`);
 
 (self as GLOBAL).APP = {
